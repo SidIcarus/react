@@ -63,6 +63,10 @@ function Board(
   )
 }
 
+/**
+ * React render cycle allows you to move state and calculations outside of clickHandlers
+ * to the root of the element.
+ */
 function Game() {
   const [history, setHistory] = useState([Array(9).fill('')])
   const [currentMove, setCurrentMove] = useState(0)
