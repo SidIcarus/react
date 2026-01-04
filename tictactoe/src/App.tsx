@@ -79,7 +79,7 @@ function Game() {
     setCurrentMove(historyIdx)
   }
 
-  const moves = history.map((squares, historyIdx) => {
+  const moves = history.map((_squares, historyIdx) => {
     const description = historyIdx > 0
       ? `Go to move #${historyIdx}`
       : 'Go to game start'
