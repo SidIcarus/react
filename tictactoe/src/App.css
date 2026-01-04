@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+.game {
+  display: flex;
+  place-items: center;
+}
+
 .board {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;

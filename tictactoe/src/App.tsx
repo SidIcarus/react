@@ -2,7 +2,9 @@
 import { useState } from 'react'
 import './App.css'
 
-function Square({ value, onClick: onClickHandler }: ({ value: string, onClick: () => void })) {
+function Square(
+  { value, onClick: onClickHandler }: ({ value: string, onClick: () => void })
+) {
   return (
     <button
       className="square"
@@ -11,17 +13,15 @@ function Square({ value, onClick: onClickHandler }: ({ value: string, onClick: (
   )
 }
 
-function Board() {
-  const [xIsNext, setXIsNext] = useState(true)
-  const [squares, setSquares] = useState(Array(9).fill(''))
-
+function Board(
+  { xIsNext, squares, onPlay }: { xIsNext: boolean, squares: string[], onPlay: (nextSquares: string[]) => void }
+) {
   function onClick(i: number) {
     if (squares[i] || calculateWinner(squares)) return
 
     const nextSquares = squares.slice()
     nextSquares[i] = xIsNext ? 'X' : 'O'
-    setSquares(nextSquares)
-    setXIsNext(!xIsNext)
+    onPlay(nextSquares)
   }
 
   const winner = calculateWinner(squares)
@@ -31,21 +31,80 @@ function Board() {
       ? `Next player: ${(xIsNext ? 'X' : 'O')}`
       : 'No winner'
 
+  /**
+   * React uses keys internally to
+   *  - match old elements to new ones
+   *  - minimize dom mutations
+   *  - preserve component state correctly
+   *
+   * When index keys are not safe
+   *  - when items can be reordered
+   *  - items can be inserted/removed
+   *  - items represent user-editable data
+   *
+   * If no key is specified, React will report an error and use the array index as a key
+   *  by default. Using the array index as a key is problematic when trying to re-order a
+   *  list's items or inserting/removing list items. Explicitly passing key={i} silences
+   *  the error but has the same problems as array indices and is not recommended in most
+   *  cases.
+   */
+  const SquareElements = []
+  for (let i = 0; i <= 8; i++) {
+    SquareElements.push(<Square key={i} value={squares[i]} onClick={() => onClick(i)}/>)
+  }
+
   return (
     <>
       <div className="status">{ status }</div>
       <div className="board">
-        <Square value={squares[0]} onClick={() => onClick(0)}/>
-        <Square value={squares[1]} onClick={() => onClick(1)}/>
-        <Square value={squares[2]} onClick={() => onClick(2)}/>
-        <Square value={squares[3]} onClick={() => onClick(3)}/>
-        <Square value={squares[4]} onClick={() => onClick(4)}/>
-        <Square value={squares[5]} onClick={() => onClick(5)}/>
-        <Square value={squares[6]} onClick={() => onClick(6)}/>
-        <Square value={squares[7]} onClick={() => onClick(7)}/>
-        <Square value={squares[8]} onClick={() => onClick(8)}/>
+        {SquareElements}
       </div>
     </>
+  )
+}
+
+function Game() {
+  const [history, setHistory] = useState([Array(9).fill('')])
+  const [currentMove, setCurrentMove] = useState(0)
+  const xIsNext = currentMove % 2 === 0
+  const currentSquares = history[currentMove]
+
+  function onPlay(nextSquares: string[]) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+    setHistory(nextHistory)
+    setCurrentMove(nextHistory.length - 1)
+  }
+
+  function jumpTo(historyIdx: number) {
+    setCurrentMove(historyIdx)
+  }
+
+  const moves = history.map((squares, historyIdx) => {
+    const description = historyIdx > 0
+      ? `Go to move #${historyIdx}`
+      : 'Go to game start'
+
+    // Its okay to use the index here since moves will never be re-ordered, deleted, or
+    // inserted in the middle
+    return (
+      // eslint-disable-next-line react-x/no-array-index-key
+      <li key={historyIdx}>
+        <button onClick={() => jumpTo(historyIdx)}>{description}</button>
+      </li>
+    )
+  })
+
+  return (
+    <div className="game">
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={onPlay}/>
+        </div>
+        <div className="game-info">
+          <ol>
+            {moves}
+          </ol>
+        </div>
+    </div>
   )
 }
 
@@ -104,5 +163,5 @@ function calculateWinner(squares: string[]) {
 }
 
 export default function App() {
-  return <Board />
+  return <Game />
 }
