@@ -6,12 +6,50 @@ type Product = {
   category: string, price: string, stocked: boolean, name: string
 }
 
-function SearchBar({ searchValue, doOnlyShowInStock }) {
+function FilterableProductTable({ products }: { products: Product[]}) {
+  const [filterText, setFilterText] = useState('')
+  const [doShowInStockOnly, setDoShowInStockOnly] = useState(false)
+
+  return (
+    <div>
+      <SearchBar
+        doShowInStockOnly={doShowInStockOnly}
+        filterText={filterText}
+        onFilterTextChange={setFilterText}
+        onDoShowInStockOnlyChange={setDoShowInStockOnly}
+      />
+      <ProductTable
+        doShowInStockOnly={doShowInStockOnly}
+        filterText={filterText}
+        products={products}
+      />
+    </div>
+  )
+}
+
+function SearchBar(
+  { filterText, doShowInStockOnly, onFilterTextChange, onDoShowInStockOnlyChange }: {
+      filterText: string,
+      doShowInStockOnly: boolean,
+      onFilterTextChange: (str: string) => void,
+      onDoShowInStockOnlyChange: (bool: boolean) => void
+    }
+) {
   return (
     <form>
-      <input type="text" placeholder="Search..." />
+      <input
+        type="text"
+        placeholder="Search..."
+        value={filterText}
+        onChange={(e) => onFilterTextChange(e.target.value)}
+      />
       <label>
-        <input id="onlyInStock" type="checkbox"/>
+        <input
+          id="onlyInStock"
+          type="checkbox"
+          checked={doShowInStockOnly}
+          onChange={(e) => onDoShowInStockOnlyChange(e.target.checked)}
+        />
         {' '}
         Only show products in stock
       </label>
@@ -19,37 +57,24 @@ function SearchBar({ searchValue, doOnlyShowInStock }) {
   )
 }
 
-function ProductRow({ product }: { product: Product }) {
-  return (
-    <tr>
-      <td className={product.stocked ? '' : 'isNotStocked'}>{product.name}</td>
-      <td>{product.price}</td>
-    </tr>
-  )
-}
-
-function ProductCategoryRow({ category: categoryName }: { category: string }) {
-  return (
-    <tr>
-      <th colSpan={2}>
-        {categoryName}
-      </th>
-    </tr>
-  )
-}
-
-function ProductTable({ products }: { products: Product[] }) {
+function ProductTable(
+  { products, filterText, doShowInStockOnly }: { products: Product[], filterText: string, doShowInStockOnly: boolean }
+) {
   const rows = []
   let lastCategory = ''
 
-  products.forEach((product) => {
+  const filteredProducts = products.filter(p => matchesQuery(p.name, filterText))
+
+  filteredProducts.forEach((product) => {
     if (product.category !== lastCategory) {
       rows.push(
         <ProductCategoryRow category={product.category} key={product.category} />
       )
     }
 
-    rows.push(<ProductRow product={product} key={product.name} />)
+    if (!doShowInStockOnly || product.stocked && doShowInStockOnly) {
+      rows.push(<ProductRow product={product} key={product.name} />)
+    }
     lastCategory = product.category
   })
 
@@ -66,6 +91,40 @@ function ProductTable({ products }: { products: Product[] }) {
   )
 }
 
+function escapeRegExp(str: string) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function matchesQuery(text: string, query: string) {
+  // Instead of creating one regex per token, we build one regex using lookaheads
+  const tokens = query
+    .trim()
+    .split(/\s+/)
+    .map(token => `(?=.*${escapeRegExp(token)})`)
+
+  const regex = new RegExp(tokens.join(''), 'i')
+  return regex.test(text)
+}
+
+function ProductCategoryRow({ category: categoryName }: { category: string }) {
+  return (
+    <tr>
+      <th colSpan={2}>
+        {categoryName}
+      </th>
+    </tr>
+  )
+}
+
+function ProductRow({ product }: { product: Product }) {
+  return (
+    <tr>
+      <td className={product.stocked ? '' : 'isNotStocked'}>{product.name}</td>
+      <td>{product.price}</td>
+    </tr>
+  )
+}
+
 function getProducts(): Product[] {
   return [
     { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
@@ -75,15 +134,6 @@ function getProducts(): Product[] {
     { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
     { category: "Vegetables", price: "$1", stocked: true, name: "Peas" }
   ]
-}
-
-function FilterableProductTable({ products }: { products: Product[]}) {
-  return (
-    <div>
-      <SearchBar/>
-      <ProductTable products={products}/>
-    </div>
-  )
 }
 
 export default function App() {
