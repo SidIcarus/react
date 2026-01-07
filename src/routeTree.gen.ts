@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VideoBuilderRouteImport } from './routes/videoBuilder'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BuilderRouteImport } from './routes/builder'
@@ -27,6 +28,11 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
+const VideoBuilderRoute = VideoBuilderRouteImport.update({
+  id: '/videoBuilder',
+  path: '/videoBuilder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/builder': typeof BuilderRoute
   '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
+  '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
@@ -160,6 +167,7 @@ export interface FileRoutesById {
   '/builder': typeof BuilderRoute
   '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
+  '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
@@ -181,6 +189,7 @@ export interface FileRouteTypes {
     | '/builder'
     | '/campaigns'
     | '/dashboard'
+    | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/builder'
     | '/campaigns'
     | '/dashboard'
+    | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/builder'
     | '/campaigns'
     | '/dashboard'
+    | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
@@ -239,6 +250,7 @@ export interface RootRouteChildren {
   BuilderRoute: typeof BuilderRoute
   CampaignsRoute: typeof CampaignsRoute
   DashboardRoute: typeof DashboardRoute
+  VideoBuilderRoute: typeof VideoBuilderRoute
   ApiAdvertisersRoute: typeof ApiAdvertisersRoute
   ApiCampaignsRoute: typeof ApiCampaignsRoute
   ApiDashboardChartsRoute: typeof ApiDashboardChartsRoute
@@ -254,6 +266,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/videoBuilder': {
+      id: '/videoBuilder'
+      path: '/videoBuilder'
+      fullPath: '/videoBuilder'
+      preLoaderRoute: typeof VideoBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -383,6 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   BuilderRoute: BuilderRoute,
   CampaignsRoute: CampaignsRoute,
   DashboardRoute: DashboardRoute,
+  VideoBuilderRoute: VideoBuilderRoute,
   ApiAdvertisersRoute: ApiAdvertisersRoute,
   ApiCampaignsRoute: ApiCampaignsRoute,
   ApiDashboardChartsRoute: ApiDashboardChartsRoute,
