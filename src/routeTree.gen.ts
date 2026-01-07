@@ -15,12 +15,13 @@ import { Route as BuilderRouteImport } from './routes/builder'
 import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTeamMembersRouteImport } from './routes/api.teamMembers'
+import { Route as ApiDashboardChartsRouteImport } from './routes/api.dashboardCharts'
+import { Route as ApiCampaignsRouteImport } from './routes/api.campaigns'
+import { Route as ApiAdvertisersRouteImport } from './routes/api.advertisers'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
-import { Route as DemoApiUsersRouteImport } from './routes/demo/api.users'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
-import { Route as DemoApiCampaignsRouteImport } from './routes/demo/api.campaigns'
-import { Route as DemoApiAdvertisersRouteImport } from './routes/demo/api.advertisers'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
 import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
@@ -56,6 +57,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTeamMembersRoute = ApiTeamMembersRouteImport.update({
+  id: '/api/teamMembers',
+  path: '/api/teamMembers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDashboardChartsRoute = ApiDashboardChartsRouteImport.update({
+  id: '/api/dashboardCharts',
+  path: '/api/dashboardCharts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCampaignsRoute = ApiCampaignsRouteImport.update({
+  id: '/api/campaigns',
+  path: '/api/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdvertisersRoute = ApiAdvertisersRouteImport.update({
+  id: '/api/advertisers',
+  path: '/api/advertisers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
   id: '/demo/start/server-funcs',
   path: '/demo/start/server-funcs',
@@ -66,24 +87,9 @@ const DemoStartApiRequestRoute = DemoStartApiRequestRouteImport.update({
   path: '/demo/start/api-request',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoApiUsersRoute = DemoApiUsersRouteImport.update({
-  id: '/demo/api/users',
-  path: '/demo/api/users',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
   id: '/demo/api/names',
   path: '/demo/api/names',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoApiCampaignsRoute = DemoApiCampaignsRouteImport.update({
-  id: '/demo/api/campaigns',
-  path: '/demo/api/campaigns',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoApiAdvertisersRoute = DemoApiAdvertisersRouteImport.update({
-  id: '/demo/api/advertisers',
-  path: '/demo/api/advertisers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
@@ -114,10 +120,11 @@ export interface FileRoutesByFullPath {
   '/builder': typeof BuilderRoute
   '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
-  '/demo/api/advertisers': typeof DemoApiAdvertisersRoute
-  '/demo/api/campaigns': typeof DemoApiCampaignsRoute
+  '/api/advertisers': typeof ApiAdvertisersRoute
+  '/api/campaigns': typeof ApiCampaignsRoute
+  '/api/dashboardCharts': typeof ApiDashboardChartsRoute
+  '/api/teamMembers': typeof ApiTeamMembersRoute
   '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/api/users': typeof DemoApiUsersRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
@@ -132,10 +139,12 @@ export interface FileRoutesByTo {
   '/builder': typeof BuilderRoute
   '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
-  '/demo/api/advertisers': typeof DemoApiAdvertisersRoute
-  '/demo/api/campaigns': typeof DemoApiCampaignsRoute
+  '/videoBuilder': typeof VideoBuilderRoute
+  '/api/advertisers': typeof ApiAdvertisersRoute
+  '/api/campaigns': typeof ApiCampaignsRoute
+  '/api/dashboardCharts': typeof ApiDashboardChartsRoute
+  '/api/teamMembers': typeof ApiTeamMembersRoute
   '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/api/users': typeof DemoApiUsersRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
@@ -151,10 +160,11 @@ export interface FileRoutesById {
   '/builder': typeof BuilderRoute
   '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
-  '/demo/api/advertisers': typeof DemoApiAdvertisersRoute
-  '/demo/api/campaigns': typeof DemoApiCampaignsRoute
+  '/api/advertisers': typeof ApiAdvertisersRoute
+  '/api/campaigns': typeof ApiCampaignsRoute
+  '/api/dashboardCharts': typeof ApiDashboardChartsRoute
+  '/api/teamMembers': typeof ApiTeamMembersRoute
   '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/api/users': typeof DemoApiUsersRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
@@ -171,10 +181,11 @@ export interface FileRouteTypes {
     | '/builder'
     | '/campaigns'
     | '/dashboard'
-    | '/demo/api/advertisers'
-    | '/demo/api/campaigns'
+    | '/api/advertisers'
+    | '/api/campaigns'
+    | '/api/dashboardCharts'
+    | '/api/teamMembers'
     | '/demo/api/names'
-    | '/demo/api/users'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/demo/start/ssr/data-only'
@@ -189,10 +200,11 @@ export interface FileRouteTypes {
     | '/builder'
     | '/campaigns'
     | '/dashboard'
-    | '/demo/api/advertisers'
-    | '/demo/api/campaigns'
+    | '/api/advertisers'
+    | '/api/campaigns'
+    | '/api/dashboardCharts'
+    | '/api/teamMembers'
     | '/demo/api/names'
-    | '/demo/api/users'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/demo/start/ssr/data-only'
@@ -207,10 +219,11 @@ export interface FileRouteTypes {
     | '/builder'
     | '/campaigns'
     | '/dashboard'
-    | '/demo/api/advertisers'
-    | '/demo/api/campaigns'
+    | '/api/advertisers'
+    | '/api/campaigns'
+    | '/api/dashboardCharts'
+    | '/api/teamMembers'
     | '/demo/api/names'
-    | '/demo/api/users'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/demo/start/ssr/data-only'
@@ -226,10 +239,11 @@ export interface RootRouteChildren {
   BuilderRoute: typeof BuilderRoute
   CampaignsRoute: typeof CampaignsRoute
   DashboardRoute: typeof DashboardRoute
-  DemoApiAdvertisersRoute: typeof DemoApiAdvertisersRoute
-  DemoApiCampaignsRoute: typeof DemoApiCampaignsRoute
+  ApiAdvertisersRoute: typeof ApiAdvertisersRoute
+  ApiCampaignsRoute: typeof ApiCampaignsRoute
+  ApiDashboardChartsRoute: typeof ApiDashboardChartsRoute
+  ApiTeamMembersRoute: typeof ApiTeamMembersRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
-  DemoApiUsersRoute: typeof DemoApiUsersRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
   DemoStartSsrDataOnlyRoute: typeof DemoStartSsrDataOnlyRoute
@@ -282,6 +296,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/teamMembers': {
+      id: '/api/teamMembers'
+      path: '/api/teamMembers'
+      fullPath: '/api/teamMembers'
+      preLoaderRoute: typeof ApiTeamMembersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/dashboardCharts': {
+      id: '/api/dashboardCharts'
+      path: '/api/dashboardCharts'
+      fullPath: '/api/dashboardCharts'
+      preLoaderRoute: typeof ApiDashboardChartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/campaigns': {
+      id: '/api/campaigns'
+      path: '/api/campaigns'
+      fullPath: '/api/campaigns'
+      preLoaderRoute: typeof ApiCampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/advertisers': {
+      id: '/api/advertisers'
+      path: '/api/advertisers'
+      fullPath: '/api/advertisers'
+      preLoaderRoute: typeof ApiAdvertisersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/start/server-funcs': {
       id: '/demo/start/server-funcs'
       path: '/demo/start/server-funcs'
@@ -296,32 +338,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoStartApiRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/api/users': {
-      id: '/demo/api/users'
-      path: '/demo/api/users'
-      fullPath: '/demo/api/users'
-      preLoaderRoute: typeof DemoApiUsersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/demo/api/names': {
       id: '/demo/api/names'
       path: '/demo/api/names'
       fullPath: '/demo/api/names'
       preLoaderRoute: typeof DemoApiNamesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/api/campaigns': {
-      id: '/demo/api/campaigns'
-      path: '/demo/api/campaigns'
-      fullPath: '/demo/api/campaigns'
-      preLoaderRoute: typeof DemoApiCampaignsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/api/advertisers': {
-      id: '/demo/api/advertisers'
-      path: '/demo/api/advertisers'
-      fullPath: '/demo/api/advertisers'
-      preLoaderRoute: typeof DemoApiAdvertisersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/ssr/': {
@@ -362,10 +383,11 @@ const rootRouteChildren: RootRouteChildren = {
   BuilderRoute: BuilderRoute,
   CampaignsRoute: CampaignsRoute,
   DashboardRoute: DashboardRoute,
-  DemoApiAdvertisersRoute: DemoApiAdvertisersRoute,
-  DemoApiCampaignsRoute: DemoApiCampaignsRoute,
+  ApiAdvertisersRoute: ApiAdvertisersRoute,
+  ApiCampaignsRoute: ApiCampaignsRoute,
+  ApiDashboardChartsRoute: ApiDashboardChartsRoute,
+  ApiTeamMembersRoute: ApiTeamMembersRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
-  DemoApiUsersRoute: DemoApiUsersRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
   DemoStartSsrDataOnlyRoute: DemoStartSsrDataOnlyRoute,

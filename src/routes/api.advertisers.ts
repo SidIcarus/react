@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { json } from '@tanstack/react-start'
 
-export const Route = createFileRoute('/demo/api/advertisers')({
+export const Route = createFileRoute('/api/advertisers')({
   server: {
     handlers: {
-      GET: () => json(advertisers),
+      GET: () => json(data),
     },
   },
 })
@@ -15,7 +15,7 @@ type Advertiser = {
   name: string,
 }
 
-const advertisers: Advertiser[] = [
+const data: Advertiser[] = [
   { name: "Adventive Testing", id: 13328 },
   { name: "Amateur Golf", id: 15018 },
   { name: "Apple", id: 160 },

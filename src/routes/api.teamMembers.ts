@@ -1,15 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { json } from '@tanstack/react-start'
 
-export const Route = createFileRoute('/demo/api/users')({
+export const Route = createFileRoute('/api/teamMembers')({
   server: {
     handlers: {
-      GET: () => json(users),
+      GET: () => json(data),
     },
   },
 })
 
-type User = {
+export type TeamMember = {
   isAdmin: boolean,
   isAnalyst: boolean,
   isBuilder: boolean,
@@ -19,7 +19,7 @@ type User = {
   name: string,
 }
 
-const users: User[] = [
+const data: TeamMember[] = [
   {
     isAdmin: true,
     isAnalyst: true,

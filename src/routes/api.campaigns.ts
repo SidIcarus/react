@@ -1,16 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { json } from '@tanstack/react-start'
 
-export const Route = createFileRoute('/demo/api/campaigns')({
+export const Route = createFileRoute('/api/campaigns')({
   server: {
     handlers: {
-      GET: () => json(campaigns),
+      GET: () => json(data),
     },
   },
 })
 
 
-type Campaign = {
+export type Campaign = {
   adCount: number,
   flightDate: [string, string],
   id: number,
@@ -20,7 +20,7 @@ type Campaign = {
   status: 'Active' | 'Inactive' | 'Completed'
 }
 
-const campaigns: Campaign[] = [
+const data: Campaign[] = [
   { name: "Report Testing", id: 74609, adCount: 5, status: 'Active', impressions: 31, lastUpdated: '09/16/25 04:10pm', flightDate: ['04/22/24', '06/29/24'] },
   { name: "Campaign of John", id: 73797, adCount: 6, status: 'Active', impressions: 77, lastUpdated: '10/02/25 03:19pm', flightDate: ['02/16/24', '07/06/24'] },
   { name: "TEST Wallpaper", id: 68720, adCount: 8, status: 'Active', impressions: 218, lastUpdated: '12/14/23 06:48pm', flightDate: ['02/17/23', '06/30/23'] },
