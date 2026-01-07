@@ -6,17 +6,19 @@ import {
   ChevronRight,
   Home,
   Menu,
-  Network,
-  SquareFunction,
-  StickyNote,
   X,
+  BrickWall,
+  ChartNoAxesCombined,
+  Images,
+  LayoutDashboard,
+  MonitorPlay,
+  Route,
 } from 'lucide-react'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [groupedExpanded, setGroupedExpanded] = useState<
-    Record<string, boolean>
-  >({})
+  const [groupedExpandedBuilder, setGroupedExpandedBuilder] = useState<Record<string, boolean>>({})
+  // const [groupedExpandedSSR, setGroupedExpandedSSR] = useState<Record<string, boolean>>({})
 
   return (
     <>
@@ -57,6 +59,112 @@ export default function Header() {
 
         <nav className="flex-1 p-4 overflow-y-auto">
           <Link
+            to="/dashboard"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <Home size={20} />
+            <span className="font-medium">Dashboard</span>
+          </Link>
+          <div className="flex flex-row justify-between">
+            <button
+              onClick={() =>
+                setGroupedExpandedBuilder((prev) => ({
+                  ...prev,
+                  Builder: !prev.Builder,
+                }))
+              }
+              className="flex-1 flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            >
+              <LayoutDashboard size={20} />
+              <span className="font-medium">Builder</span>
+            </button>
+            <button
+              className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+              onClick={() =>
+                setGroupedExpandedBuilder((prev) => ({
+                  ...prev,
+                  Builder: !prev.Builder,
+                }))
+              }
+            >
+              {groupedExpandedBuilder.Builder ? (
+                <ChevronDown size={20} />
+              ) : (
+                <ChevronRight size={20} />
+              )}
+            </button>
+          </div>
+          {groupedExpandedBuilder.Builder && (
+            <div className="flex flex-col ml-4">
+              <Link
+                to="/builder"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+                activeProps={{
+                  className:
+                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                }}
+              >
+                <BrickWall size={20} />
+                <span className="font-medium">Rich Media Ad Builder</span>
+              </Link>
+
+              <Link
+                to="/videoBuilder"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+                activeProps={{
+                  className:
+                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                }}
+              >
+                <MonitorPlay size={20} />
+                <span className="font-medium">Instream Video Ad Builder</span>
+              </Link>
+            </div>
+          )}
+          <Link
+            to="/assets"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <Images size={20} />
+            <span className="font-medium">Assets</span>
+          </Link>
+          <Link
+            to="/campaigns"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <Route size={20} />
+            <span className="font-medium">Campaigns</span>
+          </Link>
+          <Link
+            to="/analytics"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <ChartNoAxesCombined size={20} />
+            <span className="font-medium">Analytics</span>
+          </Link>
+          <Link
             to="/"
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
@@ -71,7 +179,7 @@ export default function Header() {
 
           {/* Demo Links Start */}
 
-          <Link
+          {/* <Link
             to="/demo/start/server-funcs"
             onClick={() => setIsOpen(false)}
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
@@ -113,20 +221,20 @@ export default function Header() {
             <button
               className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
               onClick={() =>
-                setGroupedExpanded((prev) => ({
+                setGroupedExpandedSSR((prev) => ({
                   ...prev,
                   StartSSRDemo: !prev.StartSSRDemo,
                 }))
               }
             >
-              {groupedExpanded.StartSSRDemo ? (
+              {groupedExpandedSSR.StartSSRDemo ? (
                 <ChevronDown size={20} />
               ) : (
                 <ChevronRight size={20} />
               )}
             </button>
           </div>
-          {groupedExpanded.StartSSRDemo && (
+          {groupedExpandedSSR.StartSSRDemo && (
             <div className="flex flex-col ml-4">
               <Link
                 to="/demo/start/ssr/spa-mode"
@@ -167,7 +275,7 @@ export default function Header() {
                 <span className="font-medium">Data Only</span>
               </Link>
             </div>
-          )}
+          )} */}
 
           {/* Demo Links End */}
         </nav>
