@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
+import { ClientOnly } from "@tanstack/react-router"
 
 type Theme = "dark" | "light" | "system"
 
@@ -20,7 +21,7 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
-export function ThemeProvider({
+function ThemeProviderClient({
   children,
   defaultTheme = "system",
   storageKey = "vite-ui-theme",
@@ -60,6 +61,24 @@ export function ThemeProvider({
     <ThemeProviderContext.Provider {...props} value={value}>
       {children}
     </ThemeProviderContext.Provider>
+  )
+}
+
+export function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  storageKey = "vite-ui-theme",
+}: ThemeProviderProps) {
+  return (
+    <ClientOnly fallback={
+      <ThemeProviderContext.Provider value={initialState}>
+        {children}
+      </ThemeProviderContext.Provider>
+    }>
+      <ThemeProviderClient defaultTheme={defaultTheme} storageKey={storageKey}>
+        {children}
+      </ThemeProviderClient>
+    </ClientOnly>
   )
 }
 

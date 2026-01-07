@@ -39,10 +39,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {/* <ThemeProvider defaultTheme="dark" storageKey="inventive-ui-theme"> */}
+        <ThemeProvider defaultTheme="dark" storageKey="inventive-ui-theme">
           <Header />
           {children}
-        {/* </ThemeProvider> */}
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
