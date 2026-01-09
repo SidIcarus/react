@@ -15,7 +15,7 @@ export type Campaign = {
   flightDate: [string, string],
   id: number,
   impressions: number,
-  lastUpdated: string,
+  lastUpdatedDate: string,
   name: string,
   status: 'Active' | 'Inactive' | 'Completed' | 'In Development'
 }
@@ -29,7 +29,7 @@ const data: Campaign[] = [
     ],
     id: 74609,
     impressions: 31,
-    lastUpdated: '09/16/25 04:10pm',
+    lastUpdatedDate: '09/16/25 04:10pm',
     name: 'Report Testing',
     status: 'Active'
   },
@@ -41,7 +41,7 @@ const data: Campaign[] = [
     ],
     id: 73797,
     impressions: 77,
-    lastUpdated: '10/02/25 03:19pm',
+    lastUpdatedDate: '10/02/25 03:19pm',
     name: 'Campaign of John',
     status: 'Active'
   },
@@ -53,7 +53,7 @@ const data: Campaign[] = [
     ],
     id: 68720,
     impressions: 218,
-    lastUpdated: '12/14/23 06:48pm',
+    lastUpdatedDate: '12/14/23 06:48pm',
     name: 'TEST Wallpaper',
     status: 'Active'
   },
@@ -65,7 +65,7 @@ const data: Campaign[] = [
     ],
     id: 59438,
     impressions: 324,
-    lastUpdated: '07/21/25 02:26pm',
+    lastUpdatedDate: '07/21/25 02:26pm',
     name: 'Empty Campaign',
     status: 'Active'
   },
@@ -77,7 +77,7 @@ const data: Campaign[] = [
     ],
     id: 58831,
     impressions: 259,
-    lastUpdated: '12/14/23 06:55pm',
+    lastUpdatedDate: '12/14/23 06:55pm',
     name: 'essence testing',
     status: 'Active'
   },
@@ -89,7 +89,7 @@ const data: Campaign[] = [
     ],
     id: 57547,
     impressions: 0,
-    lastUpdated: '03/23/21 03:31pm',
+    lastUpdatedDate: '03/23/21 03:31pm',
     name: 'Animation Bugs',
     status: 'Active'
   },
@@ -101,7 +101,7 @@ const data: Campaign[] = [
     ],
     id: 56903,
     impressions: 35,
-    lastUpdated: '11/16/22 11:28am',
+    lastUpdatedDate: '11/16/22 11:28am',
     name: 'Cityside Test Ads',
     status: 'Active'
   },
@@ -113,7 +113,7 @@ const data: Campaign[] = [
     ],
     id: 56095,
     impressions: 626,
-    lastUpdated: '11/30/23 04:49pm',
+    lastUpdatedDate: '11/30/23 04:49pm',
     name: 'Auto Slideshow',
     status: 'Active'
   },
@@ -125,7 +125,7 @@ const data: Campaign[] = [
     ],
     id: 43982,
     impressions: 1,
-    lastUpdated: '11/01/23 07:04pm',
+    lastUpdatedDate: '11/01/23 07:04pm',
     name: 'New Tes campaign',
     status: 'Active'
   },
@@ -137,7 +137,7 @@ const data: Campaign[] = [
     ],
     id: 42186,
     impressions: 0,
-    lastUpdated: '02/15/19 02:37pm',
+    lastUpdatedDate: '02/15/19 02:37pm',
     name: 'testestestes',
     status: 'Active'
   },
@@ -149,7 +149,7 @@ const data: Campaign[] = [
     ],
     id: 41282,
     impressions: 199,
-    lastUpdated: '07/02/21 04:10pm',
+    lastUpdatedDate: '07/02/21 04:10pm',
     name: 'ViewabilityTesting',
     status: 'Active'
   },
@@ -161,7 +161,7 @@ const data: Campaign[] = [
     ],
     id: 37936,
     impressions: 229,
-    lastUpdated: '11/02/18 10:31am',
+    lastUpdatedDate: '11/02/18 10:31am',
     name: 'Mraid',
     status: 'Active'
   },
@@ -173,7 +173,7 @@ const data: Campaign[] = [
     ],
     id: 33303,
     impressions: 686,
-    lastUpdated: '12/17/25 06:12am',
+    lastUpdatedDate: '12/17/25 06:12am',
     name: 'Test Campaign DB Update',
     status: 'Active'
   },
@@ -185,7 +185,7 @@ const data: Campaign[] = [
     ],
     id: 27909,
     impressions: 0,
-    lastUpdated: '06/26/18 02:54pm',
+    lastUpdatedDate: '06/26/18 02:54pm',
     name: 'Test 3_0_44_1_2',
     status: 'Active'
   },
@@ -197,7 +197,7 @@ const data: Campaign[] = [
     ],
     id: 27272,
     impressions: 355,
-    lastUpdated: '04/04/18 11:26am',
+    lastUpdatedDate: '04/04/18 11:26am',
     name: 'Video Header Testing',
     status: 'Active'
   },
@@ -209,7 +209,7 @@ const data: Campaign[] = [
     ],
     id: 26065,
     impressions: 1,
-    lastUpdated: '08/11/23 10:13am',
+    lastUpdatedDate: '08/11/23 10:13am',
     name: 'Test 3_0_43',
     status: 'Active'
   },
@@ -221,7 +221,7 @@ const data: Campaign[] = [
     ],
     id: 16821,
     impressions: 12,
-    lastUpdated: '07/31/17 07:07pm',
+    lastUpdatedDate: '07/31/17 07:07pm',
     name: 'DV tags',
     status: 'Active'
   },
@@ -233,7 +233,7 @@ const data: Campaign[] = [
     ],
     id: 16396,
     impressions: 3,
-    lastUpdated: '07/19/17 11:39am',
+    lastUpdatedDate: '07/19/17 11:39am',
     name: '3_0_37',
     status: 'Active'
   },
@@ -245,7 +245,7 @@ const data: Campaign[] = [
     ],
     id: 11863,
     impressions: 40,
-    lastUpdated: '03/21/17 09:26am',
+    lastUpdatedDate: '03/21/17 09:26am',
     name: '3_0_34d',
     status: 'Active'
   },
@@ -257,7 +257,7 @@ const data: Campaign[] = [
     ],
     id: 10089,
     impressions: 16,
-    lastUpdated: '04/20/22 06:48pm',
+    lastUpdatedDate: '04/20/22 06:48pm',
     name: 'Release 3_0_30',
     status: 'Active'
   },
@@ -269,7 +269,7 @@ const data: Campaign[] = [
     ],
     id: 5962,
     impressions: 49,
-    lastUpdated: '02/11/21 11:47am',
+    lastUpdatedDate: '02/11/21 11:47am',
     name: 'Release 3.0.26',
     status: 'Active'
   },
@@ -281,7 +281,7 @@ const data: Campaign[] = [
     ],
     id: 4589,
     impressions: 463,
-    lastUpdated: '04/04/16 05:30pm',
+    lastUpdatedDate: '04/04/16 05:30pm',
     name: 'feat_release_v3.0.23',
     status: 'Active'
   },
@@ -293,7 +293,7 @@ const data: Campaign[] = [
     ],
     id: 2746,
     impressions: 50,
-    lastUpdated: '11/10/15 04:59pm',
+    lastUpdatedDate: '11/10/15 04:59pm',
     name: 'Feat_release_v3.0.17',
     status: 'Active'
   },
@@ -305,7 +305,7 @@ const data: Campaign[] = [
     ],
     id: 444,
     impressions: 351,
-    lastUpdated: '12/10/14 11:23pm',
+    lastUpdatedDate: '12/10/14 11:23pm',
     name: 'From Template',
     status: 'Active'
   },
@@ -317,7 +317,7 @@ const data: Campaign[] = [
     ],
     id: 340,
     impressions: 757,
-    lastUpdated: '03/12/21 05:10pm',
+    lastUpdatedDate: '03/12/21 05:10pm',
     name: 'test 44',
     status: 'Active'
   },
@@ -329,7 +329,7 @@ const data: Campaign[] = [
     ],
     id: 339,
     impressions: 367,
-    lastUpdated: '09/07/14 02:36pm',
+    lastUpdatedDate: '09/07/14 02:36pm',
     name: 'test 3',
     status: 'Active'
   },
@@ -341,7 +341,7 @@ const data: Campaign[] = [
     ],
     id: 333,
     impressions: 143,
-    lastUpdated: '07/31/14 10:31pm',
+    lastUpdatedDate: '07/31/14 10:31pm',
     name: 'Billing Test',
     status: 'In Development'
   },
@@ -353,7 +353,7 @@ const data: Campaign[] = [
     ],
     id: 145,
     impressions: 399,
-    lastUpdated: '06/30/14 05:51pm',
+    lastUpdatedDate: '06/30/14 05:51pm',
     name: '20140226',
     status: 'Active'
   },
@@ -365,7 +365,7 @@ const data: Campaign[] = [
     ],
     id: 91,
     impressions: 7,
-    lastUpdated: '04/29/14 10:47pm',
+    lastUpdatedDate: '04/29/14 10:47pm',
     name: '100000 test',
     status: 'Active'
   },
@@ -377,7 +377,7 @@ const data: Campaign[] = [
     ],
     id: 63,
     impressions: 7,
-    lastUpdated: '04/02/15 09:32pm',
+    lastUpdatedDate: '04/02/15 09:32pm',
     name: 'Ad Loading',
     status: 'Active'
   },
@@ -389,7 +389,7 @@ const data: Campaign[] = [
     ],
     id: 53,
     impressions: 28,
-    lastUpdated: '04/10/14 02:25pm',
+    lastUpdatedDate: '04/10/14 02:25pm',
     name: 'Johns Tex Mex',
     status: 'Active'
   }

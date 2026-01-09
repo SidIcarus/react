@@ -1,9 +1,80 @@
+import { useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+
+import { Button } from "@/components/ui/button"
+// import { Spinner } from '@/components/ui/spinner'
+
+import { type TeamMember } from './api.teamMembers'
+import { type DashboardChartData } from './api.dashboardCharts'
+import { type Campaign } from './api.campaigns'
+
+import { CampaignRangeSelect } from '@/components/campaigns/CampaignRangeSelect'
+import { CampaignsTableColumns } from "@/components/campaigns/CampaignsTableColumn"
+import { CampaignsTable } from "@/components/campaigns/CampaignsTable"
+
+async function getDashboardChartsData() {
+  const res = await fetch('/api/dashboardCharts')
+  return await (res.json() as Promise<DashboardChartData>)
+}
+
+async function getCampaigns() {
+  const res = await fetch('/api/campaigns')
+  return await (res.json() as Promise<Campaign[]>)
+}
+
+async function getTeamMembers() {
+  const res = await fetch('/api/teamMembers')
+  return await (res.json() as Promise<TeamMember[]>)
+}
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/dashboard"!</div>
+  const [teamMembers, setTeamMembers] = useState<Array<TeamMember>>([])
+  const [campaigns, setCampaigns] = useState<Array<Campaign>>([])
+  const [dashboardChartsData, setDashboardChartsData] = useState<DashboardChartData>({
+    clickThroughRate: { percent: 0, total: 0 },
+    engagementRate: { percent: 0, total: 0 },
+    impressions: { total: 0, unique: 0 },
+  })
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  /**
+   * This could be refactored to use tanstack query to add in
+   * - built-in loading/error states
+   * - caching / deduplication catches?
+   * - avoid race conditions if the component unmounts mid-fetch (tho it wouldn't here)
+   * - automatic refetching on window focus?
+   *
+   * it could also be retrieved in the route loader for SSR since its needed immediately
+   */
+  useEffect(() => {
+    Promise.all([
+      getDashboardChartsData().then(setDashboardChartsData),
+      getCampaigns().then(setCampaigns),
+      getTeamMembers().then(setTeamMembers),
+    ])
+      .catch(console.error)
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  return (
+    <div
+      className="flex flex-col items-center justify-center min-h-screen p-4 text-white w-full"
+    >
+      <div className="flex justify-between items-center">
+        Advertiser Overview
+        <div className="flex">
+          <CampaignRangeSelect/>
+          <Button variant="secondary">New Campaign</Button>
+        </div>
+      </div>
+      <div className="container mx-auto py-10">
+        <CampaignsTable columns={CampaignsTableColumns} data={campaigns} />
+      </div>
+    </div>
+  )
 }
