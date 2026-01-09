@@ -125,8 +125,7 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
             >
               Copy ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>View Analytics</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
