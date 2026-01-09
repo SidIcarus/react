@@ -11,8 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { toast } from 'sonner'
@@ -28,7 +26,7 @@ export type Campaign = {
   impressions: number,
   lastUpdatedDate: string,
   name: string,
-  status: 'Active' | 'Inactive' | 'Completed' | 'In Development'
+  status: 'Active' | 'Inactive' | 'Completed' | 'In Development' | 'Archived'
 }
 
 export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
@@ -56,9 +54,18 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   },
   {
     accessorKey: "name",
-     header: ({ column }) => (
+    header: ({ column }) => (
       <TableColumnHeader column={column} title="Name" />
     ),
+  },
+  {
+    accessorKey: "adCount",
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Ad Count" className="justify-center"/>
+    ),
+    cell: ({ row }) => {
+      return <div className="text-center">{row.getValue('adCount')}</div>
+    },
   },
   {
     accessorKey: "lastUpdatedDate",
@@ -80,17 +87,11 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   {
     accessorKey: "impressions",
     header: ({ column }) => (
-      <TableColumnHeader column={column} title="Impressions" />
+      <TableColumnHeader column={column} title="Impressions" className="justify-center" />
     ),
-    // cell: ({ row }) => {
-    //   const impressions = parseFloat(row.getValue("impressions"))
-    //   const formatted = new Intl.NumberFormat("en-US", {
-    //     style: "currency",
-    //     currency: "USD",
-    //   }).format(impressions)
-
-    //   return <div className="font-medium">{formatted}</div>
-    // },
+    cell: ({ row }) => {
+      return <div className="text-center">{row.getValue('adCount')}</div>
+    },
   },
   {
     accessorKey: "status",
@@ -98,6 +99,8 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   },
   {
     id: "actions",
+    enableHiding: false,
+    enableSorting: false,
     // header: () => <div className="text-right">Manage</div>,
     cell: ({ row }) => {
       // You can access the row data using row.original in the cell function. Use this to
