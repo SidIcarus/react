@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Button } from "@/components/ui/button"
 // import { Spinner } from '@/components/ui/spinner'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { type TeamMember } from './api.teamMembers'
 import { type DashboardChartData } from './api.dashboardCharts'
@@ -72,9 +73,18 @@ function RouteComponent() {
           <Button variant="secondary">New Campaign</Button>
         </div>
       </div>
-      <div className="container mx-auto py-10">
-        <CampaignsTable columns={CampaignsTableColumns} data={campaigns} />
-      </div>
+      <Tabs defaultValue="campaigns" className="w-full py-10">
+        <TabsList>
+          <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+          <TabsTrigger value="team">Team</TabsTrigger>
+        </TabsList>
+        <TabsContent value="campaigns">
+          <CampaignsTable columns={CampaignsTableColumns} data={campaigns} />
+        </TabsContent>
+        <TabsContent value="team">
+          Change your password here.
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
