@@ -13,6 +13,9 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 
+/**
+ * @description for column visibility
+ */
 export function TableViewOptions<TData>({
   table,
 }: {
