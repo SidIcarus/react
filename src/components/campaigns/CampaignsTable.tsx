@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/table"
 import { TablePagination } from '../table/TablePagination'
 import { TableViewOptions } from '../table/TableViewOptions'
-import { TableViewOptionsSimple } from '../table/TableViewOptionsSimple'
+// import { TableViewOptionsSimple } from '../table/TableViewOptionsSimple'
 
 interface CampaignsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
