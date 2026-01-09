@@ -64,10 +64,10 @@ function RouteComponent() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen p-4 text-white w-full"
+      className="container mx-auto flex flex-col justify-start min-h-screen p-4 text-white w-full"
     >
-      <div className="flex justify-between items-center">
-        Advertiser Overview
+      <div className="w-full flex justify-between items-center">
+        ADVERTISER OVERVIEW
         <div className="flex">
           <CampaignRangeSelect/>
           <Button variant="secondary">New Campaign</Button>
