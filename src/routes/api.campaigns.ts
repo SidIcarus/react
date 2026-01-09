@@ -17,39 +17,380 @@ export type Campaign = {
   impressions: number,
   lastUpdated: string,
   name: string,
-  status: 'Active' | 'Inactive' | 'Completed'
+  status: 'Active' | 'Inactive' | 'Completed' | 'In Development'
 }
 
 const data: Campaign[] = [
-  { name: "Report Testing", id: 74609, adCount: 5, status: 'Active', impressions: 31, lastUpdated: '09/16/25 04:10pm', flightDate: ['04/22/24', '06/29/24'] },
-  { name: "Campaign of John", id: 73797, adCount: 6, status: 'Active', impressions: 77, lastUpdated: '10/02/25 03:19pm', flightDate: ['02/16/24', '07/06/24'] },
-  { name: "TEST Wallpaper", id: 68720, adCount: 8, status: 'Active', impressions: 218, lastUpdated: '12/14/23 06:48pm', flightDate: ['02/17/23', '06/30/23'] },
-  { name: "Empty Campaign", id: 59438, adCount: 22, status: 'Active', impressions: 324, lastUpdated: '07/21/25 02:26pm', flightDate: ['07/02/21', '07/31/21'] },
-  { name: "essence testing", id: 58831, adCount: 11, status: 'Active', impressions: 259, lastUpdated: '12/14/23 06:55pm', flightDate: ['06/02/21', '06/30/21'] },
-  { name: "Animation Bugs", id: 57547, adCount: 0, status: 'Active', impressions: 0, lastUpdated: '03/23/21 03:31pm', flightDate: ['03/23/21', '08/28/21'] },
-  { name: "Cityside Test Ads", id: 56903, adCount: 9, status: 'Active', impressions: 35, lastUpdated: '11/16/22 11:28am', flightDate: ['02/11/21', '06/26/21'] },
-  { name: "Auto Slideshow", id: 56095, adCount: 9, status: 'Active', impressions: 626, lastUpdated: '11/30/23 04:49pm', flightDate: ['12/14/20', '05/31/21'] },
-  { name: "New Tes campaign", id: 43982, adCount: 32, status: 'Active', impressions: 1, lastUpdated: '11/01/23 07:04pm', flightDate: ['04/13/19', '04/27/19'] },
-  { name: "testestestes", id: 42186, adCount: 0, status: 'Active', impressions: 0, lastUpdated: '02/15/19 02:37pm', flightDate: ['02/15/19', '07/26/19'] },
-  { name: "ViewabilityTesting", id: 41282, adCount: 8, status: 'Active', impressions: 199, lastUpdated: '07/02/21 04:10pm', flightDate: ['01/15/19', '01/17/19'] },
-  { name: "Mraid", id: 37936, adCount: 8, status: 'Active', impressions: 229, lastUpdated: '11/02/18 10:31am', flightDate: ['11/02/18', '02/23/19'] },
-  { name: "Test Campaign DB Update", id: 33303, adCount: 21, status: 'Active', impressions: 686, lastUpdated: '12/17/25 06:12am', flightDate: ['08/06/18', '09/15/18'] },
-  { name: "Test 3_0_44_1_2", id: 27909, adCount: 0, status: 'Active', impressions: 0, lastUpdated: '06/26/18 02:54pm', flightDate: ['04/12/18', '04/30/18'] },
-  { name: "Video Header Testing", id: 27272, adCount: 16, status: 'Active', impressions: 355, lastUpdated: '04/04/18 11:26am', flightDate: ['03/29/18', '08/25/18'] },
-  { name: "Test 3_0_43", id: 26065, adCount: 10, status: 'Active', impressions: 1, lastUpdated: '08/11/23 10:13am', flightDate: ['03/06/18', '03/31/18'] },
-  { name: "DV tags", id: 16821, adCount: 13, status: 'Active', impressions: 12, lastUpdated: '07/31/17 07:07pm', flightDate: ['07/31/17', '08/05/17'] },
-  { name: "3_0_37", id: 16396, adCount: 2, status: 'Active', impressions: 3, lastUpdated: '07/19/17 11:39am', flightDate: ['07/19/17', '08/04/17'] },
-  { name: "3_0_34d", id: 11863, adCount: 10, status: 'Active', impressions: 40, lastUpdated: '03/21/17 09:26am', flightDate: ['03/22/17', '05/26/17'] },
-  { name: "Release 3_0_30", id: 10089, adCount: 3, status: 'Active', impressions: 16, lastUpdated: '04/20/22 06:48pm', flightDate: ['12/28/16', '03/17/17'] },
-  { name: "Release 3.0.26", id: 5962, adCount: 7, status: 'Active', impressions: 49, lastUpdated: '02/11/21 11:47am', flightDate: ['06/20/16', '06/23/16'] },
-  { name: "feat_release_v3.0.23", id: 4589, adCount: 22, status: 'Active', impressions: 463, lastUpdated: '04/04/16 05:30pm', flightDate: ['04/04/16', '07/30/16'] },
-  { name: "Feat_release_v3.0.17", id: 2746, adCount: 13, status: 'Active', impressions: 50, lastUpdated: '11/10/15 04:59pm', flightDate: ['11/10/15', '11/28/15'] },
-  { name: "From Template", id: 444, adCount: 11, status: 'Active', impressions: 351, lastUpdated: '12/10/14 11:23pm', flightDate: ['09/18/14', '11/08/14'] },
-  { name: "test 44", id: 340, adCount: 16, status: 'Active', impressions: 757, lastUpdated: '03/12/21 05:10pm', flightDate: ['08/01/14', '09/26/14'] },
-  { name: "test 3", id: 339, adCount: 8, status: 'Active', impressions: 367, lastUpdated: '09/07/14 02:36pm', flightDate: ['08/01/14', '08/22/14'] },
-  { name: "Billing Test", id: 333, adCount: 1, status: 'Active', impressions: 143, lastUpdated: '07/31/14 10:31pm', flightDate: ['08/01/14', '12/26/14'] },
-  { name: "20140226", id: 145, adCount: 10, status: 'Active', impressions: 399, lastUpdated: '06/30/14 05:51pm', flightDate: ['02/26/14', '09/27/14'] },
-  { name: "100000 test", id: 91, adCount: 8, status: 'Active', impressions: 7, lastUpdated: '04/29/14 10:47pm', flightDate: ['08/24/76', '08/07/14'] },
-  { name: "Ad Loading", id: 63, adCount: 21, status: 'Active', impressions: 7, lastUpdated: '04/02/15 09:32pm', flightDate: ['11/04/13', '06/30/14'] },
-  { name: "Johns Tex Mex", id: 53, adCount: 8, status: 'Active', impressions: 28, lastUpdated: '04/10/14 02:25pm', flightDate: ['10/25/13', '01/31/14'] },
+  {
+    adCount: 5,
+    flightDate: [
+      '04/22/24',
+      '06/29/24'
+    ],
+    id: 74609,
+    impressions: 31,
+    lastUpdated: '09/16/25 04:10pm',
+    name: 'Report Testing',
+    status: 'Active'
+  },
+  {
+    adCount: 6,
+    flightDate: [
+      '02/16/24',
+      '07/06/24'
+    ],
+    id: 73797,
+    impressions: 77,
+    lastUpdated: '10/02/25 03:19pm',
+    name: 'Campaign of John',
+    status: 'Active'
+  },
+  {
+    adCount: 8,
+    flightDate: [
+      '02/17/23',
+      '06/30/23'
+    ],
+    id: 68720,
+    impressions: 218,
+    lastUpdated: '12/14/23 06:48pm',
+    name: 'TEST Wallpaper',
+    status: 'Active'
+  },
+  {
+    adCount: 22,
+    flightDate: [
+      '07/02/21',
+      '07/31/21'
+    ],
+    id: 59438,
+    impressions: 324,
+    lastUpdated: '07/21/25 02:26pm',
+    name: 'Empty Campaign',
+    status: 'Active'
+  },
+  {
+    adCount: 11,
+    flightDate: [
+      '06/02/21',
+      '06/30/21'
+    ],
+    id: 58831,
+    impressions: 259,
+    lastUpdated: '12/14/23 06:55pm',
+    name: 'essence testing',
+    status: 'Active'
+  },
+  {
+    adCount: 0,
+    flightDate: [
+      '03/23/21',
+      '08/28/21'
+    ],
+    id: 57547,
+    impressions: 0,
+    lastUpdated: '03/23/21 03:31pm',
+    name: 'Animation Bugs',
+    status: 'Active'
+  },
+  {
+    adCount: 9,
+    flightDate: [
+      '02/11/21',
+      '06/26/21'
+    ],
+    id: 56903,
+    impressions: 35,
+    lastUpdated: '11/16/22 11:28am',
+    name: 'Cityside Test Ads',
+    status: 'Active'
+  },
+  {
+    adCount: 9,
+    flightDate: [
+      '12/14/20',
+      '05/31/21'
+    ],
+    id: 56095,
+    impressions: 626,
+    lastUpdated: '11/30/23 04:49pm',
+    name: 'Auto Slideshow',
+    status: 'Active'
+  },
+  {
+    adCount: 32,
+    flightDate: [
+      '04/13/19',
+      '04/27/19'
+    ],
+    id: 43982,
+    impressions: 1,
+    lastUpdated: '11/01/23 07:04pm',
+    name: 'New Tes campaign',
+    status: 'Active'
+  },
+  {
+    adCount: 0,
+    flightDate: [
+      '02/15/19',
+      '07/26/19'
+    ],
+    id: 42186,
+    impressions: 0,
+    lastUpdated: '02/15/19 02:37pm',
+    name: 'testestestes',
+    status: 'Active'
+  },
+  {
+    adCount: 8,
+    flightDate: [
+      '01/15/19',
+      '01/17/19'
+    ],
+    id: 41282,
+    impressions: 199,
+    lastUpdated: '07/02/21 04:10pm',
+    name: 'ViewabilityTesting',
+    status: 'Active'
+  },
+  {
+    adCount: 8,
+    flightDate: [
+      '11/02/18',
+      '02/23/19'
+    ],
+    id: 37936,
+    impressions: 229,
+    lastUpdated: '11/02/18 10:31am',
+    name: 'Mraid',
+    status: 'Active'
+  },
+  {
+    adCount: 21,
+    flightDate: [
+      '08/06/18',
+      '09/15/18'
+    ],
+    id: 33303,
+    impressions: 686,
+    lastUpdated: '12/17/25 06:12am',
+    name: 'Test Campaign DB Update',
+    status: 'Active'
+  },
+  {
+    adCount: 0,
+    flightDate: [
+      '04/12/18',
+      '04/30/18'
+    ],
+    id: 27909,
+    impressions: 0,
+    lastUpdated: '06/26/18 02:54pm',
+    name: 'Test 3_0_44_1_2',
+    status: 'Active'
+  },
+  {
+    adCount: 16,
+    flightDate: [
+      '03/29/18',
+      '08/25/18'
+    ],
+    id: 27272,
+    impressions: 355,
+    lastUpdated: '04/04/18 11:26am',
+    name: 'Video Header Testing',
+    status: 'Active'
+  },
+  {
+    adCount: 10,
+    flightDate: [
+      '03/06/18',
+      '03/31/18'
+    ],
+    id: 26065,
+    impressions: 1,
+    lastUpdated: '08/11/23 10:13am',
+    name: 'Test 3_0_43',
+    status: 'Active'
+  },
+  {
+    adCount: 13,
+    flightDate: [
+      '07/31/17',
+      '08/05/17'
+    ],
+    id: 16821,
+    impressions: 12,
+    lastUpdated: '07/31/17 07:07pm',
+    name: 'DV tags',
+    status: 'Active'
+  },
+  {
+    adCount: 2,
+    flightDate: [
+      '07/19/17',
+      '08/04/17'
+    ],
+    id: 16396,
+    impressions: 3,
+    lastUpdated: '07/19/17 11:39am',
+    name: '3_0_37',
+    status: 'Active'
+  },
+  {
+    adCount: 10,
+    flightDate: [
+      '03/22/17',
+      '05/26/17'
+    ],
+    id: 11863,
+    impressions: 40,
+    lastUpdated: '03/21/17 09:26am',
+    name: '3_0_34d',
+    status: 'Active'
+  },
+  {
+    adCount: 3,
+    flightDate: [
+      '12/28/16',
+      '03/17/17'
+    ],
+    id: 10089,
+    impressions: 16,
+    lastUpdated: '04/20/22 06:48pm',
+    name: 'Release 3_0_30',
+    status: 'Active'
+  },
+  {
+    adCount: 7,
+    flightDate: [
+      '06/20/16',
+      '06/23/16'
+    ],
+    id: 5962,
+    impressions: 49,
+    lastUpdated: '02/11/21 11:47am',
+    name: 'Release 3.0.26',
+    status: 'Active'
+  },
+  {
+    adCount: 22,
+    flightDate: [
+      '04/04/16',
+      '07/30/16'
+    ],
+    id: 4589,
+    impressions: 463,
+    lastUpdated: '04/04/16 05:30pm',
+    name: 'feat_release_v3.0.23',
+    status: 'Active'
+  },
+  {
+    adCount: 13,
+    flightDate: [
+      '11/10/15',
+      '11/28/15'
+    ],
+    id: 2746,
+    impressions: 50,
+    lastUpdated: '11/10/15 04:59pm',
+    name: 'Feat_release_v3.0.17',
+    status: 'Active'
+  },
+  {
+    adCount: 11,
+    flightDate: [
+      '09/18/14',
+      '11/08/14'
+    ],
+    id: 444,
+    impressions: 351,
+    lastUpdated: '12/10/14 11:23pm',
+    name: 'From Template',
+    status: 'Active'
+  },
+  {
+    adCount: 16,
+    flightDate: [
+      '08/01/14',
+      '09/26/14'
+    ],
+    id: 340,
+    impressions: 757,
+    lastUpdated: '03/12/21 05:10pm',
+    name: 'test 44',
+    status: 'Active'
+  },
+  {
+    adCount: 8,
+    flightDate: [
+      '08/01/14',
+      '08/22/14'
+    ],
+    id: 339,
+    impressions: 367,
+    lastUpdated: '09/07/14 02:36pm',
+    name: 'test 3',
+    status: 'Active'
+  },
+  {
+    adCount: 1,
+    flightDate: [
+      '08/01/14',
+      '12/26/14'
+    ],
+    id: 333,
+    impressions: 143,
+    lastUpdated: '07/31/14 10:31pm',
+    name: 'Billing Test',
+    status: 'In Development'
+  },
+  {
+    adCount: 10,
+    flightDate: [
+      '02/26/14',
+      '09/27/14'
+    ],
+    id: 145,
+    impressions: 399,
+    lastUpdated: '06/30/14 05:51pm',
+    name: '20140226',
+    status: 'Active'
+  },
+  {
+    adCount: 8,
+    flightDate: [
+      '08/24/76',
+      '08/07/14'
+    ],
+    id: 91,
+    impressions: 7,
+    lastUpdated: '04/29/14 10:47pm',
+    name: '100000 test',
+    status: 'Active'
+  },
+  {
+    adCount: 21,
+    flightDate: [
+      '11/04/13',
+      '06/30/14'
+    ],
+    id: 63,
+    impressions: 7,
+    lastUpdated: '04/02/15 09:32pm',
+    name: 'Ad Loading',
+    status: 'Active'
+  },
+  {
+    adCount: 8,
+    flightDate: [
+      '10/25/13',
+      '01/31/14'
+    ],
+    id: 53,
+    impressions: 28,
+    lastUpdated: '04/10/14 02:25pm',
+    name: 'Johns Tex Mex',
+    status: 'Active'
+  }
 ]
