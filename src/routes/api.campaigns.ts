@@ -9,7 +9,6 @@ export const Route = createFileRoute('/api/campaigns')({
   },
 })
 
-
 export type Campaign = {
   adCount: number,
   flightDate: [string, string],

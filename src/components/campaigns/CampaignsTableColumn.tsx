@@ -16,18 +16,7 @@ import {
 import { toast } from 'sonner'
 
 import { TableColumnHeader } from '../table/TableColumnHeader'
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Campaign = {
-  adCount: number,
-  flightDate: [string, string],
-  id: number,
-  impressions: number,
-  lastUpdatedDate: string,
-  name: string,
-  status: 'Active' | 'Inactive' | 'Completed' | 'In Development' | 'Archived'
-}
+import { Campaign } from '@/routes/api.campaigns'
 
 export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   {
