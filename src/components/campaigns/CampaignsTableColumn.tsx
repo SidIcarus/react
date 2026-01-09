@@ -15,6 +15,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { toast } from 'sonner'
+
 import { TableColumnHeader } from '../table/TableColumnHeader'
 
 // This type is used to define the shape of our data.
@@ -111,11 +113,17 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(campaign.id.toString())}
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(campaign.id.toString())
+                  toast("ID has successfully been copied to your clipboard")
+                } catch(e) {
+                  toast("ID has failed to copy to your clipboard")
+                }
+              }}
             >
-              Copy campaign ID
+              Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Details</DropdownMenuItem>
