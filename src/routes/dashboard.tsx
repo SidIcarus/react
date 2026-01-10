@@ -13,6 +13,9 @@ import { CampaignRangeSelect } from '@/components/campaigns/CampaignRangeSelect'
 import { CampaignsTableColumns } from "@/components/campaigns/CampaignsTableColumn"
 import { CampaignsTable } from "@/components/campaigns/CampaignsTable"
 
+import { TeamTableColumns } from "@/components/dashboard/TeamTableColumns"
+import { TeamTable } from '@/components/dashboard/TeamTable'
+
 async function getDashboardChartsData() {
   const res = await fetch('/api/dashboardCharts')
   return await (res.json() as Promise<DashboardChartData>)
@@ -82,7 +85,7 @@ function RouteComponent() {
           <CampaignsTable columns={CampaignsTableColumns} data={campaigns} />
         </TabsContent>
         <TabsContent value="team">
-          Change your password here.
+          <TeamTable columns={TeamTableColumns} data={teamMembers} />
         </TabsContent>
       </Tabs>
     </div>
