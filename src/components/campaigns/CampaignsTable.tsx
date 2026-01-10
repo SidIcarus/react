@@ -16,6 +16,7 @@ import {
 } from "@tanstack/react-table"
 
 import { Input } from '@/components/ui/input' // for filtering
+import { Button } from '@/components/ui/button'
 
 import {
   Select,
@@ -86,21 +87,24 @@ export function CampaignsTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <div className="flex">
-          <div className="px-4">
-            <Select defaultValue="All">
-              <SelectTrigger size="sm">
-                <SelectValue/>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="Active">Active Campaigns</SelectItem>
-                  <SelectItem value="Archived">Archived Campaigns</SelectItem>
-                  <SelectItem value="All">All Campaigns</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="flex gap-4 justify-end">
+          <Button
+            disabled={table.getFilteredSelectedRowModel().rows.length === 0}
+            variant="secondary"
+            size="sm"
+          >Archive</Button>
+          <Select defaultValue="All">
+            <SelectTrigger size="sm">
+              <SelectValue/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Active">Active Campaigns</SelectItem>
+                <SelectItem value="Archived">Archived Campaigns</SelectItem>
+                <SelectItem value="All">All Campaigns</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           {/* for column visibility */}
           <TableViewOptions table={table} />
         </div>
