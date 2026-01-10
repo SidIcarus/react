@@ -119,6 +119,7 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>View Analytics</DropdownMenuItem>
+            <DropdownMenuItem>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
