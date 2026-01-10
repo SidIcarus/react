@@ -11,11 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VideoBuilderRouteImport } from './routes/videoBuilder'
 import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BuilderRouteImport } from './routes/builder'
 import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
 import { Route as ApiTeamMembersRouteImport } from './routes/api.teamMembers'
 import { Route as ApiDashboardChartsRouteImport } from './routes/api.dashboardCharts'
 import { Route as ApiCampaignsRouteImport } from './routes/api.campaigns'
@@ -38,11 +38,6 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CampaignsRoute = CampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BuilderRoute = BuilderRouteImport.update({
   id: '/builder',
   path: '/builder',
@@ -61,6 +56,11 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTeamMembersRoute = ApiTeamMembersRouteImport.update({
@@ -124,13 +124,13 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AnalyticsRoute
   '/assets': typeof AssetsRoute
   '/builder': typeof BuilderRoute
-  '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
   '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
   '/api/teamMembers': typeof ApiTeamMembersRoute
+  '/campaigns': typeof CampaignsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -144,13 +144,13 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/assets': typeof AssetsRoute
   '/builder': typeof BuilderRoute
-  '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
   '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
   '/api/teamMembers': typeof ApiTeamMembersRoute
+  '/campaigns': typeof CampaignsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -165,13 +165,13 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/assets': typeof AssetsRoute
   '/builder': typeof BuilderRoute
-  '/campaigns': typeof CampaignsRoute
   '/dashboard': typeof DashboardRoute
   '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
   '/api/teamMembers': typeof ApiTeamMembersRoute
+  '/campaigns/': typeof CampaignsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -187,13 +187,13 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/assets'
     | '/builder'
-    | '/campaigns'
     | '/dashboard'
     | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
     | '/api/teamMembers'
+    | '/campaigns'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -207,13 +207,13 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/assets'
     | '/builder'
-    | '/campaigns'
     | '/dashboard'
     | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
     | '/api/teamMembers'
+    | '/campaigns'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -227,13 +227,13 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/assets'
     | '/builder'
-    | '/campaigns'
     | '/dashboard'
     | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
     | '/api/teamMembers'
+    | '/campaigns/'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -248,13 +248,13 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   AssetsRoute: typeof AssetsRoute
   BuilderRoute: typeof BuilderRoute
-  CampaignsRoute: typeof CampaignsRoute
   DashboardRoute: typeof DashboardRoute
   VideoBuilderRoute: typeof VideoBuilderRoute
   ApiAdvertisersRoute: typeof ApiAdvertisersRoute
   ApiCampaignsRoute: typeof ApiCampaignsRoute
   ApiDashboardChartsRoute: typeof ApiDashboardChartsRoute
   ApiTeamMembersRoute: typeof ApiTeamMembersRoute
+  CampaignsIndexRoute: typeof CampaignsIndexRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
@@ -278,13 +278,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/campaigns': {
-      id: '/campaigns'
-      path: '/campaigns'
-      fullPath: '/campaigns'
-      preLoaderRoute: typeof CampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/builder': {
@@ -313,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns/': {
+      id: '/campaigns/'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/teamMembers': {
@@ -400,13 +400,13 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   AssetsRoute: AssetsRoute,
   BuilderRoute: BuilderRoute,
-  CampaignsRoute: CampaignsRoute,
   DashboardRoute: DashboardRoute,
   VideoBuilderRoute: VideoBuilderRoute,
   ApiAdvertisersRoute: ApiAdvertisersRoute,
   ApiCampaignsRoute: ApiCampaignsRoute,
   ApiDashboardChartsRoute: ApiDashboardChartsRoute,
   ApiTeamMembersRoute: ApiTeamMembersRoute,
+  CampaignsIndexRoute: CampaignsIndexRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
