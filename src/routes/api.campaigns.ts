@@ -16,7 +16,7 @@ export type Campaign = {
   impressions: number,
   lastUpdatedDate: string,
   name: string,
-  status: 'Active' | 'Inactive' | 'Completed' | 'In Development'
+  status: 'Active' | 'Archived' | 'In Development'
 }
 
 const data: Campaign[] = [
