@@ -39,6 +39,8 @@ import { TablePagination } from '../table/TablePagination' // for pagination
 import { TableViewOptions } from '../table/TableViewOptions' // for column visibility
 // import { TableViewOptionsSimple } from '../table/TableViewOptionsSimple'
 
+import type { Campaign } from '@/routes/api.campaigns'
+
 interface CampaignsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -53,8 +55,8 @@ export function CampaignsTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}) // for column visibility
   const [rowSelection, setRowSelection] = useState({}) // for row selection
 
-  // todo: connect this to the select component
-  const [campaignStatusFilter, setCampaignStatusFilter] = useState<'All'|'Archived'|'Active'>('All')
+  // May not need to keep the state myself and just let it live within the select...
+  const [campaignStatusFilter, setCampaignStatusFilter] = useState<Campaign['status'] | 'All'>('All')
 
   const table = useReactTable({
     data,
@@ -93,7 +95,13 @@ export function CampaignsTable<TData, TValue>({
             variant="secondary"
             size="sm"
           >Archive</Button>
-          <Select defaultValue="All">
+          <Select
+            value={campaignStatusFilter}
+            onValueChange={(value: Campaign['status'] | 'All') => {
+              setCampaignStatusFilter(value)
+              table.getColumn('status')?.setFilterValue(value === 'All' ? undefined : value)
+            }}
+          >
             <SelectTrigger size="sm">
               <SelectValue/>
             </SelectTrigger>
