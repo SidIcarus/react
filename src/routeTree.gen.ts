@@ -9,13 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VideoBuilderRouteImport } from './routes/videoBuilder'
 import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as BuilderRouteImport } from './routes/builder'
 import { Route as AssetsRouteImport } from './routes/assets'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns/index'
+import { Route as BuilderIndexRouteImport } from './routes/builder/index'
+import { Route as BuilderVideoRouteImport } from './routes/builder/video'
 import { Route as ApiTeamMembersRouteImport } from './routes/api.teamMembers'
 import { Route as ApiDashboardChartsRouteImport } from './routes/api.dashboardCharts'
 import { Route as ApiCampaignsRouteImport } from './routes/api.campaigns'
@@ -28,19 +28,9 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
-const VideoBuilderRoute = VideoBuilderRouteImport.update({
-  id: '/videoBuilder',
-  path: '/videoBuilder',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BuilderRoute = BuilderRouteImport.update({
-  id: '/builder',
-  path: '/builder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssetsRoute = AssetsRouteImport.update({
@@ -61,6 +51,16 @@ const IndexRoute = IndexRouteImport.update({
 const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
   id: '/campaigns/',
   path: '/campaigns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuilderIndexRoute = BuilderIndexRouteImport.update({
+  id: '/builder/',
+  path: '/builder/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuilderVideoRoute = BuilderVideoRouteImport.update({
+  id: '/builder/video',
+  path: '/builder/video',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTeamMembersRoute = ApiTeamMembersRouteImport.update({
@@ -123,13 +123,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/assets': typeof AssetsRoute
-  '/builder': typeof BuilderRoute
   '/dashboard': typeof DashboardRoute
-  '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
   '/api/teamMembers': typeof ApiTeamMembersRoute
+  '/builder/video': typeof BuilderVideoRoute
+  '/builder': typeof BuilderIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -143,13 +143,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/assets': typeof AssetsRoute
-  '/builder': typeof BuilderRoute
   '/dashboard': typeof DashboardRoute
-  '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
   '/api/teamMembers': typeof ApiTeamMembersRoute
+  '/builder/video': typeof BuilderVideoRoute
+  '/builder': typeof BuilderIndexRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -164,13 +164,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/assets': typeof AssetsRoute
-  '/builder': typeof BuilderRoute
   '/dashboard': typeof DashboardRoute
-  '/videoBuilder': typeof VideoBuilderRoute
   '/api/advertisers': typeof ApiAdvertisersRoute
   '/api/campaigns': typeof ApiCampaignsRoute
   '/api/dashboardCharts': typeof ApiDashboardChartsRoute
   '/api/teamMembers': typeof ApiTeamMembersRoute
+  '/builder/video': typeof BuilderVideoRoute
+  '/builder/': typeof BuilderIndexRoute
   '/campaigns/': typeof CampaignsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -186,13 +186,13 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/assets'
-    | '/builder'
     | '/dashboard'
-    | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
     | '/api/teamMembers'
+    | '/builder/video'
+    | '/builder'
     | '/campaigns'
     | '/demo/api/names'
     | '/demo/start/api-request'
@@ -206,13 +206,13 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/assets'
-    | '/builder'
     | '/dashboard'
-    | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
     | '/api/teamMembers'
+    | '/builder/video'
+    | '/builder'
     | '/campaigns'
     | '/demo/api/names'
     | '/demo/start/api-request'
@@ -226,13 +226,13 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/assets'
-    | '/builder'
     | '/dashboard'
-    | '/videoBuilder'
     | '/api/advertisers'
     | '/api/campaigns'
     | '/api/dashboardCharts'
     | '/api/teamMembers'
+    | '/builder/video'
+    | '/builder/'
     | '/campaigns/'
     | '/demo/api/names'
     | '/demo/start/api-request'
@@ -247,13 +247,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   AssetsRoute: typeof AssetsRoute
-  BuilderRoute: typeof BuilderRoute
   DashboardRoute: typeof DashboardRoute
-  VideoBuilderRoute: typeof VideoBuilderRoute
   ApiAdvertisersRoute: typeof ApiAdvertisersRoute
   ApiCampaignsRoute: typeof ApiCampaignsRoute
   ApiDashboardChartsRoute: typeof ApiDashboardChartsRoute
   ApiTeamMembersRoute: typeof ApiTeamMembersRoute
+  BuilderVideoRoute: typeof BuilderVideoRoute
+  BuilderIndexRoute: typeof BuilderIndexRoute
   CampaignsIndexRoute: typeof CampaignsIndexRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -266,25 +266,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/videoBuilder': {
-      id: '/videoBuilder'
-      path: '/videoBuilder'
-      fullPath: '/videoBuilder'
-      preLoaderRoute: typeof VideoBuilderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/builder': {
-      id: '/builder'
-      path: '/builder'
-      fullPath: '/builder'
-      preLoaderRoute: typeof BuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assets': {
@@ -313,6 +299,20 @@ declare module '@tanstack/react-router' {
       path: '/campaigns'
       fullPath: '/campaigns'
       preLoaderRoute: typeof CampaignsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/builder/': {
+      id: '/builder/'
+      path: '/builder'
+      fullPath: '/builder'
+      preLoaderRoute: typeof BuilderIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/builder/video': {
+      id: '/builder/video'
+      path: '/builder/video'
+      fullPath: '/builder/video'
+      preLoaderRoute: typeof BuilderVideoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/teamMembers': {
@@ -399,13 +399,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   AssetsRoute: AssetsRoute,
-  BuilderRoute: BuilderRoute,
   DashboardRoute: DashboardRoute,
-  VideoBuilderRoute: VideoBuilderRoute,
   ApiAdvertisersRoute: ApiAdvertisersRoute,
   ApiCampaignsRoute: ApiCampaignsRoute,
   ApiDashboardChartsRoute: ApiDashboardChartsRoute,
   ApiTeamMembersRoute: ApiTeamMembersRoute,
+  BuilderVideoRoute: BuilderVideoRoute,
+  BuilderIndexRoute: BuilderIndexRoute,
   CampaignsIndexRoute: CampaignsIndexRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
