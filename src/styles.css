@@ -143,3 +143,12 @@ code {
     cursor: pointer;
   }
 }
+
+.dashboard-grids {
+  @media (width >= 24rem) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

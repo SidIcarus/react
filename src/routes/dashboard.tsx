@@ -16,6 +16,9 @@ import { CampaignsTable } from "@/components/campaigns/CampaignsTable"
 import { TeamTableColumns } from "@/components/dashboard/TeamTableColumns"
 import { TeamTable } from '@/components/dashboard/TeamTable'
 
+import { ExampleChart } from '@/components/exampleChart'
+// import { ExampleCard } from '@/components/exampleCard'
+
 async function getDashboardChartsData() {
   const res = await fetch('/api/dashboardCharts')
   return await (res.json() as Promise<DashboardChartData>)
@@ -50,7 +53,7 @@ function RouteComponent() {
    * This could be refactored to use tanstack query to add in
    * - built-in loading/error states
    * - caching / deduplication catches?
-   * - avoid race conditions if the component unmounts mid-fetch (tho it wouldn't here)
+   * - avoid race conditions if the component unmounts mid-fetch
    * - automatic refetching on window focus?
    *
    * it could also be retrieved in the route loader for SSR since its needed immediately
@@ -67,14 +70,19 @@ function RouteComponent() {
 
   return (
     <div
-      className="container mx-auto flex flex-col justify-start min-h-screen p-4 text-white w-full"
+      className="container mx-auto flex flex-col justify-start min-h-screen px-10 text-white w-full"
     >
-      <div className="w-full flex justify-between items-center">
+      <div className="w-full flex justify-between items-center py-3">
         ADVERTISER OVERVIEW
         <div className="flex">
           <CampaignRangeSelect/>
           <Button variant="secondary">New Campaign</Button>
         </div>
+      </div>
+      <div className="grid dashboard-grids">
+        <ExampleChart/>
+        <ExampleChart/>
+        <ExampleChart/>
       </div>
       <Tabs defaultValue="campaigns" className="w-full py-10">
         <TabsList>
