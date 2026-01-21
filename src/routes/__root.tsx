@@ -5,6 +5,9 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from "@/components/ui/sonner"
 
 import Header from '../components/Header'
+import Header2 from '../components/Header2'
+import Header3 from '../components/Header3'
+import Header4 from '../components/Header4'
 
 import appCss from '../styles.css?url'
 
@@ -42,6 +45,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <ThemeProvider defaultTheme="dark" storageKey="inventive-ui-theme">
           <Header />
+          <Header2 />
+          <Header3 />
+          <Header4 />
           {children}
         </ThemeProvider>
         <TanStackDevtools
