@@ -27,6 +27,7 @@ export default function Header() {
           onClick={() => setIsOpen(true)}
           className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
           aria-label="Open menu"
+          type="button"
         >
           <Menu size={24} />
         </button>
@@ -115,7 +116,7 @@ export default function Header() {
               </Link>
 
               <Link
-                to="/videoBuilder"
+                to="/builder/video"
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
                 activeProps={{

@@ -1,12 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-import {
-  ChevronDown,
-  Settings,
-  Menu,
-  X,
-  Search,
-} from 'lucide-react'
+import { ChevronDown, Settings, Menu, X, Search } from "lucide-react";
 
 // Mock data
 const advertisers = [
@@ -35,23 +29,30 @@ const settingsItems = [
       { label: "Personal Settings", href: "#" },
       { label: "API Settings", href: "#" },
       { label: "Users & Permissions", href: "#" },
-    ]
+    ],
   },
   {
     section: "HELP",
     items: [
       { label: "Knowledge Base", href: "#" },
       { label: "Sign Out", href: "#" },
-    ]
-  }
+    ],
+  },
 ];
 
 // Dropdown Component
-const Dropdown = ({ trigger, children, align = "left", isOpen = false, onToggle, closeOnSelect = true }) => {
+const Dropdown = ({
+  trigger,
+  children,
+  align = "left",
+  isOpen = false,
+  onToggle,
+  closeOnSelect = true,
+}: { align: "left" | "right", isOpen: boolean, onToggle: (open: boolean) => void }) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         onToggle(false);
       }
@@ -65,9 +66,10 @@ const Dropdown = ({ trigger, children, align = "left", isOpen = false, onToggle,
 
   return (
     <div className="relative" ref={dropdownRef}>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: should be interactive */}
       <div onClick={() => onToggle(!isOpen)}>{trigger}</div>
-      {isOpen && (
-        <div
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: should be interactive */}
+      {isOpen && (<div
           className={`absolute top-full mt-1 min-w-[200px] bg-slate-800 border border-slate-700 rounded shadow-lg z-50 ${
             align === "right" ? "right-0" : "left-0"
           }`}
@@ -81,10 +83,10 @@ const Dropdown = ({ trigger, children, align = "left", isOpen = false, onToggle,
 };
 
 // Advertiser Dropdown with Search
-const AdvertiserDropdown = ({ isOpen, onToggle }) => {
+const AdvertiserDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (open: boolean) => void}) => {
   const [search, setSearch] = useState("");
-  const filteredAdvertisers = advertisers.filter(a =>
-    a.toLowerCase().includes(search.toLowerCase())
+  const filteredAdvertisers = advertisers.filter((a) =>
+    a.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -94,14 +96,22 @@ const AdvertiserDropdown = ({ isOpen, onToggle }) => {
       align="right"
       closeOnSelect={false}
       trigger={
-        <button className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors px-3 py-2">
+        <button
+          className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors px-3 py-2"
+          type="button"
+        >
           <span>Default Advertiser</span>
-          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          />
         </button>
       }
     >
       <div className="p-2 border-b border-slate-700">
-        <button className="w-full text-center py-2 text-sm font-semibold text-slate-300 hover:text-white tracking-wide">
+        <button
+          className="w-full text-center py-2 text-sm font-semibold text-slate-300 hover:text-white tracking-wide"
+          type="button"
+        >
           NEW ADVERTISER
         </button>
       </div>
@@ -123,6 +133,7 @@ const AdvertiserDropdown = ({ isOpen, onToggle }) => {
             key={advertiser}
             className="w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
             onClick={() => onToggle(false)}
+            type="button"
           >
             {advertiser}
           </button>
@@ -133,19 +144,25 @@ const AdvertiserDropdown = ({ isOpen, onToggle }) => {
 };
 
 // Settings Dropdown
-const SettingsDropdown = ({ isOpen, onToggle }) => (
+const SettingsDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (open: boolean) => void}) => (
   <Dropdown
     isOpen={isOpen}
     onToggle={onToggle}
     align="right"
     trigger={
-      <button className="p-2 text-slate-400 hover:text-white transition-colors">
+      <button
+        className="p-2 text-slate-400 hover:text-white transition-colors"
+        type="button"
+      >
         <Settings />
       </button>
     }
   >
     {settingsItems.map((group, idx) => (
-      <div key={group.section} className={idx > 0 ? "border-t border-slate-700" : ""}>
+      <div
+        key={group.section}
+        className={idx > 0 ? "border-t border-slate-700" : ""}
+      >
         <div className="px-4 py-2 text-xs font-semibold text-slate-500 tracking-wide">
           {group.section}
         </div>
@@ -164,14 +181,19 @@ const SettingsDropdown = ({ isOpen, onToggle }) => (
 );
 
 // Builder Dropdown
-const BuilderDropdown = ({ isOpen, onToggle }) => (
+const BuilderDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (open: boolean) => void}) => (
   <Dropdown
     isOpen={isOpen}
     onToggle={onToggle}
     trigger={
-      <button className="flex items-center gap-1 px-4 py-2 text-slate-400 hover:text-white transition-colors text-sm tracking-wide">
+      <button
+        className="flex items-center gap-1 px-4 py-2 text-slate-400 hover:text-white transition-colors text-sm tracking-wide"
+        type="button"
+      >
         BUILDER
-        <ChevronDown className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
     }
   >
@@ -188,12 +210,13 @@ const BuilderDropdown = ({ isOpen, onToggle }) => (
 );
 
 // Mobile Side Nav (Left - Navigation)
-const MobileNavDrawer = ({ isOpen, onClose }) => {
+const MobileNavDrawer = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void}) => {
   const [builderOpen, setBuilderOpen] = useState(false);
 
   return (
     <>
       {/* Backdrop */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: should be interactive */}
       <div
         className={`fixed inset-0 bg-black/50 z-40 transition-opacity lg:hidden ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -213,16 +236,22 @@ const MobileNavDrawer = ({ isOpen, onClose }) => {
             <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded flex items-center justify-center text-white text-xs font-bold">
               A
             </div>
-            <span className="text-white font-semibold tracking-wide">ADVENTIVE</span>
+            <span className="text-white font-semibold tracking-wide">
+              ADVENTIVE
+            </span>
           </div>
-          <button onClick={onClose} className="p-1 text-slate-400 hover:text-white">
+          <button
+            onClick={onClose}
+            className="p-1 text-slate-400 hover:text-white"
+            type="button"
+          >
             <X />
           </button>
         </div>
 
         <nav className="p-4">
           <a
-            href="#"
+            href="/dashboard"
             className="block px-4 py-3 text-white bg-slate-800/50 border-l-2 border-purple-500 mb-1"
           >
             DASHBOARD
@@ -233,9 +262,12 @@ const MobileNavDrawer = ({ isOpen, onClose }) => {
             <button
               onClick={() => setBuilderOpen(!builderOpen)}
               className="w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
+              type="button"
             >
               <span>BUILDER</span>
-              <ChevronDown className={`transition-transform ${builderOpen ? "rotate-180" : ""}`} />
+              <ChevronDown
+                className={`transition-transform ${builderOpen ? "rotate-180" : ""}`}
+              />
             </button>
             {builderOpen && (
               <div className="ml-4 border-l border-slate-700">
@@ -252,13 +284,22 @@ const MobileNavDrawer = ({ isOpen, onClose }) => {
             )}
           </div>
 
-          <a href="#" className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors">
+          <a
+            href="/assets"
+            className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
+          >
             ASSETS
           </a>
-          <a href="#" className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors">
+          <a
+            href="/campaigns"
+            className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
+          >
             CAMPAIGNS
           </a>
-          <a href="#" className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors">
+          <a
+            href="/analytics"
+            className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
+          >
             ANALYTICS
           </a>
         </nav>
@@ -268,17 +309,18 @@ const MobileNavDrawer = ({ isOpen, onClose }) => {
 };
 
 // Mobile Settings Drawer (Right - Settings & Advertiser)
-const MobileSettingsDrawer = ({ isOpen, onClose }) => {
+const MobileSettingsDrawer = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void}) => {
   const [advertiserSearch, setAdvertiserSearch] = useState("");
   const [advertiserOpen, setAdvertiserOpen] = useState(true);
 
-  const filteredAdvertisers = advertisers.filter(a =>
-    a.toLowerCase().includes(advertiserSearch.toLowerCase())
+  const filteredAdvertisers = advertisers.filter((a) =>
+    a.toLowerCase().includes(advertiserSearch.toLowerCase()),
   );
 
   return (
     <>
       {/* Backdrop */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: should be interactive */}
       <div
         className={`fixed inset-0 bg-black/50 z-40 transition-opacity lg:hidden ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -294,7 +336,11 @@ const MobileSettingsDrawer = ({ isOpen, onClose }) => {
       >
         <div className="flex items-center justify-between p-4 border-b border-slate-700">
           <span className="text-white font-semibold">Settings</span>
-          <button onClick={onClose} className="p-1 text-slate-400 hover:text-white">
+          <button
+            onClick={onClose}
+            className="p-1 text-slate-400 hover:text-white"
+            type="button"
+          >
             <X />
           </button>
         </div>
@@ -305,17 +351,25 @@ const MobileSettingsDrawer = ({ isOpen, onClose }) => {
             <button
               onClick={() => setAdvertiserOpen(!advertiserOpen)}
               className="w-full flex items-center justify-between px-4 py-3 text-slate-300"
+              type="button"
             >
-              <span className="text-xs font-semibold tracking-wide text-slate-500">ADVERTISER</span>
+              <span className="text-xs font-semibold tracking-wide text-slate-500">
+                ADVERTISER
+              </span>
               <div className="flex items-center gap-2">
                 <span className="text-sm">Default Advertiser</span>
-                <ChevronDown className={`transition-transform ${advertiserOpen ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  className={`transition-transform ${advertiserOpen ? "rotate-180" : ""}`}
+                />
               </div>
             </button>
 
             {advertiserOpen && (
               <div className="px-4 pb-4">
-                <button className="w-full text-center py-2 mb-2 text-sm font-semibold text-slate-300 hover:text-white tracking-wide border border-slate-600 rounded">
+                <button
+                  className="w-full text-center py-2 mb-2 text-sm font-semibold text-slate-300 hover:text-white tracking-wide border border-slate-600 rounded"
+                  type="button"
+                >
                   NEW ADVERTISER
                 </button>
                 <div className="relative mb-2">
@@ -333,6 +387,7 @@ const MobileSettingsDrawer = ({ isOpen, onClose }) => {
                     <button
                       key={advertiser}
                       className="w-full text-left px-2 py-2 text-sm text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded"
+                      type="button"
                     >
                       {advertiser}
                     </button>
@@ -388,7 +443,7 @@ export default function ResponsiveNavbar() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   // Close all dropdowns when one opens
-  const handleBuilderToggle = (open) => {
+  const handleBuilderToggle = (open: boolean) => {
     setBuilderOpen(open);
     if (open) {
       setAdvertiserOpen(false);
@@ -396,7 +451,7 @@ export default function ResponsiveNavbar() {
     }
   };
 
-  const handleAdvertiserToggle = (open) => {
+  const handleAdvertiserToggle = (open: boolean)  => {
     setAdvertiserOpen(open);
     if (open) {
       setBuilderOpen(false);
@@ -404,7 +459,7 @@ export default function ResponsiveNavbar() {
     }
   };
 
-  const handleSettingsToggle = (open) => {
+  const handleSettingsToggle = (open: boolean) => {
     setSettingsOpen(open);
     if (open) {
       setBuilderOpen(false);
@@ -421,6 +476,7 @@ export default function ResponsiveNavbar() {
           <button
             onClick={() => setMobileNavOpen(true)}
             className="p-2 text-slate-400 hover:text-white lg:hidden"
+            type="button"
           >
             <Menu />
           </button>
@@ -431,26 +487,29 @@ export default function ResponsiveNavbar() {
           {/* Desktop navigation */}
           <div className="hidden lg:flex items-center ml-6">
             <a
-              href="#"
+              href="/dashboard"
               className="px-4 py-2 text-white border-b-2 border-purple-500 text-sm tracking-wide"
             >
               DASHBOARD
             </a>
-            <BuilderDropdown isOpen={builderOpen} onToggle={handleBuilderToggle} />
+            <BuilderDropdown
+              isOpen={builderOpen}
+              onToggle={handleBuilderToggle}
+            />
             <a
-              href="#"
+              href="/assets"
               className="px-4 py-2 text-slate-400 hover:text-white transition-colors text-sm tracking-wide"
             >
               ASSETS
             </a>
             <a
-              href="#"
+              href="/campaigns"
               className="px-4 py-2 text-slate-400 hover:text-white transition-colors text-sm tracking-wide"
             >
               CAMPAIGNS
             </a>
             <a
-              href="#"
+              href="/analytics"
               className="px-4 py-2 text-slate-400 hover:text-white transition-colors text-sm tracking-wide"
             >
               ANALYTICS
@@ -462,14 +521,21 @@ export default function ResponsiveNavbar() {
         <div className="flex items-center gap-1">
           {/* Desktop dropdowns */}
           <div className="hidden lg:flex items-center">
-            <AdvertiserDropdown isOpen={advertiserOpen} onToggle={handleAdvertiserToggle} />
-            <SettingsDropdown isOpen={settingsOpen} onToggle={handleSettingsToggle} />
+            <AdvertiserDropdown
+              isOpen={advertiserOpen}
+              onToggle={handleAdvertiserToggle}
+            />
+            <SettingsDropdown
+              isOpen={settingsOpen}
+              onToggle={handleSettingsToggle}
+            />
           </div>
 
           {/* Mobile settings cog */}
           <button
             onClick={() => setMobileSettingsOpen(true)}
             className="p-2 text-slate-400 hover:text-white lg:hidden"
+            type="button"
           >
             <Settings />
           </button>
@@ -477,8 +543,14 @@ export default function ResponsiveNavbar() {
       </nav>
 
       {/* Mobile drawers */}
-      <MobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
-      <MobileSettingsDrawer isOpen={mobileSettingsOpen} onClose={() => setMobileSettingsOpen(false)} />
+      <MobileNavDrawer
+        isOpen={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
+      />
+      <MobileSettingsDrawer
+        isOpen={mobileSettingsOpen}
+        onClose={() => setMobileSettingsOpen(false)}
+      />
     </>
   );
 }

@@ -266,7 +266,7 @@ const MobileNavSheet = () => {
         <nav className="p-4 space-y-1">
           <SheetClose asChild>
             <a
-              href="#"
+              href="/dashboard"
               className="block px-4 py-3 bg-slate-800/50 border-l-2 border-purple-500 rounded-r"
             >
               DASHBOARD
@@ -304,7 +304,7 @@ const MobileNavSheet = () => {
 
           <SheetClose asChild>
             <a
-              href="#"
+              href="/assets"
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 rounded transition-colors"
             >
               ASSETS
@@ -313,7 +313,7 @@ const MobileNavSheet = () => {
 
           <SheetClose asChild>
             <a
-              href="#"
+              href="/campaigns"
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 rounded transition-colors"
             >
               CAMPAIGNS
@@ -322,7 +322,7 @@ const MobileNavSheet = () => {
 
           <SheetClose asChild>
             <a
-              href="#"
+              href="/analytics"
               className="block px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/30 rounded transition-colors"
             >
               ANALYTICS

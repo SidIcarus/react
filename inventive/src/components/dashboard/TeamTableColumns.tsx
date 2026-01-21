@@ -1,10 +1,10 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
+import type { ColumnDef } from "@tanstack/react-table"
 
 import { Check } from 'lucide-react'
 import { TableColumnHeader } from '../table/TableColumnHeader'
-import { TeamMember } from '@/routes/api.teamMembers'
+import type { TeamMember } from '@/routes/api.teamMembers'
 
 export const TeamTableColumns: ColumnDef<TeamMember>[] = [
   {

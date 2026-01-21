@@ -3,16 +3,16 @@
 import { useState } from 'react'
 
 import {
-  ColumnDef,
-  ColumnFiltersState, // for filtering
+  type ColumnDef,
+  type ColumnFiltersState, // for filtering
   flexRender,
   getCoreRowModel,
   getFilteredRowModel, // for filtering
   getPaginationRowModel, // for pagination
   getSortedRowModel, // for sorting
-  SortingState, // for sorting
+  type SortingState, // for sorting
   useReactTable,
-  VisibilityState, // for column visibility
+  type VisibilityState, // for column visibility
 } from "@tanstack/react-table"
 
 import { Input } from '@/components/ui/input' // for filtering
