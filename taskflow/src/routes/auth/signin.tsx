@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { GalleryVerticalEnd } from "lucide-react";
-import { SigninForm } from "@/components/SigninForm";
+import { SigninForm } from "@/components/auth/SigninForm";
 
 export const Route = createFileRoute("/auth/signin")({
   component: RouteComponent,
