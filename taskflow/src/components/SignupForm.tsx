@@ -2,8 +2,10 @@ import { useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
+  FieldDescription,
   FieldGroup,
   FieldLabel,
+  FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -52,6 +54,14 @@ export function SignupForm({
         </Field>
         <Field>
           <Button type="submit">Signup</Button>
+        </Field>
+        <FieldSeparator>Have an account?</FieldSeparator>
+        <Field>
+          <FieldDescription className="text-center">
+            <a href="/auth/signin" className="underline underline-offset-4">
+              Sign in
+            </a>
+          </FieldDescription>
         </Field>
       </FieldGroup>
     </form>

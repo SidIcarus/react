@@ -11,7 +11,10 @@ const MOCK_USERS = [
   },
 ];
 
-export async function loginApi(email: string, password: string): Promise<User> {
+export async function signinApi(
+  email: string,
+  password: string,
+): Promise<User> {
   await new Promise((resolve) => setTimeout(resolve, FAKE_DELAY));
 
   const user = MOCK_USERS.find(

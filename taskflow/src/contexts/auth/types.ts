@@ -1,4 +1,3 @@
-
 export interface User {
   id: string;
   email: string;
@@ -9,8 +8,8 @@ export interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  signin: (email: string, password: string) => Promise<void>;
+  signout: () => void;
 }
 
 export interface RouterContext {

@@ -20,7 +20,7 @@ export function SigninForm({
   const emailId = useId();
   const passwordId = useId();
 
-  const { login } = useAuth();
+  const { signin } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -34,10 +34,10 @@ export function SigninForm({
     setIsSubmitting(true);
 
     try {
-      await login(email, password);
+      await signin(email, password);
       navigate({ to: "/" });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(err instanceof Error ? err.message : "Signin failed");
     } finally {
       setIsSubmitting(false);
     }
@@ -77,7 +77,7 @@ export function SigninForm({
           <div className="flex items-center">
             <FieldLabel htmlFor={passwordId}>Password</FieldLabel>
             <a
-              href="/forgotpassword"
+              href="/auth/forgotpassword"
               className="ml-auto text-sm underline-offset-4 hover:underline"
             >
               Forgot your password?
@@ -105,7 +105,7 @@ export function SigninForm({
           </Button>
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
-            <a href="/signup" className="underline underline-offset-4">
+            <a href="/auth/signup" className="underline underline-offset-4">
               Sign up
             </a>
           </FieldDescription>

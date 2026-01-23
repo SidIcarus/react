@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { loginApi } from "./AuthAPI";
+import { signinApi } from "./AuthAPI";
 import { AUTH_STORAGE_KEY } from "./constants";
 import type { AuthContextType, User } from "./types";
 
@@ -33,13 +33,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setHasMounted(true);
   }, []);
 
-  // Login function
-  const login = useCallback(
+  // Signin function
+  const signin = useCallback(
     async (email: string, password: string) => {
       setIsLoading(true);
 
       try {
-        const loggedInUser = await loginApi(email, password);
+        const loggedInUser = await signinApi(email, password);
 
         // Persist to localStorage
         setUser(loggedInUser);
@@ -47,13 +47,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setIsLoading(false);
       }
       // Note: we don't catch here - let the error bubble up
-      // so the login form can display it
+      // so the signin form can display it
     },
     [setUser],
   );
 
   // Logout function
-  const logout = useCallback(() => {
+  const signout = useCallback(() => {
     removeUser();
   }, [removeUser]);
 
@@ -62,8 +62,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     user,
     isLoading: !hasMounted || isLoading, // needed for potential flash when hydrating while user is null
     isAuthenticated: !!user,
-    login,
-    logout,
+    signin,
+    signout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
