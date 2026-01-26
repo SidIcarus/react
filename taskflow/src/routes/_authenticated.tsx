@@ -4,8 +4,9 @@ import { getInitialAuthState } from "@/contexts/auth/getInitialAuthState";
 
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async ({ location }) => {
-    // This runs on both server and client
-    // On server, getInitialAuthState returns not authenticated
+    // Skip auth check on server — let client handle it
+    if (typeof window === "undefined") return;
+
     // On client, it reads from localStorage
     const { isAuthenticated } = getInitialAuthState();
 
@@ -24,7 +25,7 @@ function AuthenticatedLayout() {
   return (
     <>
       <Header />
-      <Outlet />;
+      <Outlet />
     </>
   );
 }
