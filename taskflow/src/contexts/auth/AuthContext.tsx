@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { signinApi } from "./AuthAPI";
+import { signinApi, signupApi } from "./AuthAPI";
 import { AUTH_STORAGE_KEY } from "./constants";
 import type { AuthContextType, User } from "./types";
 
@@ -57,6 +57,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     removeUser();
   }, [removeUser]);
 
+  const signup = useCallback(async (name: string, email: string, password: string) => {
+    await signupApi(name, email, password);
+  }, []);
+
   // The value object we're providing
   const value: AuthContextType = {
     user,
@@ -64,6 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isAuthenticated: !!user,
     signin,
     signout,
+    signup,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
