@@ -12,10 +12,17 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
 import { cn } from "@/lib/utils";
 
+const RESET_TOKEN_EXPIRY_MINUTES = 15 * 60 * 1000;
+
+interface ForgotPasswordFormProps extends React.ComponentProps<"form"> {
+  errorMessage?: string;
+}
+
 export function ForgotPasswordForm({
   className,
+  errorMessage,
   ...props
-}: React.ComponentProps<"form">) {
+}: ForgotPasswordFormProps) {
   const emailId = useId();
 
   const { forgetPassword } = useAuth();
@@ -32,9 +39,12 @@ export function ForgotPasswordForm({
 
     try {
       const user = await forgetPassword(email);
+
+      const expiresAt = Date.now() + RESET_TOKEN_EXPIRY_MINUTES;
+
       navigate({
         to: "/auth/resetpassword",
-        search: { email: user.email, name: user.name },
+        search: { email: user.email, name: user.name, expiresAt },
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Link failed to send");
@@ -56,9 +66,9 @@ export function ForgotPasswordForm({
             Enter your email and we'll send you a a reset link
           </p>
         </div>
-        {error && (
+        {(error || errorMessage) && (
           <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md">
-            {error}
+            {error || errorMessage}
           </div>
         )}
         <Field>

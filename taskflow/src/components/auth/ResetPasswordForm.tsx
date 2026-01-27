@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -12,6 +12,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
 import { cn } from "@/lib/utils";
+
+interface ResetPasswordFormProps extends React.ComponentProps<"form"> {
+  email: string;
+  expiresAt: number;
+  name: string;
+}
+
+function formatTimeRemaining(ms: number): string {
+  if (ms <= 0) return "Expired";
+
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000);
+
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
 
 const validators = {
   password(value: string) {
@@ -26,14 +41,10 @@ const validators = {
   },
 };
 
-interface ResetPasswordFormProps extends React.ComponentProps<"form"> {
-  email: string;
-  name: string;
-}
-
 export function ResetPasswordForm({
   email,
   name,
+  expiresAt,
   className,
   ...props
 }: ResetPasswordFormProps) {
@@ -51,6 +62,25 @@ export function ResetPasswordForm({
 
   const { resetPassword } = useAuth();
   const navigate = useNavigate();
+
+  const [timeRemaining, setTimeRemaining] = useState(expiresAt - Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const remaining = expiresAt - Date.now();
+      setTimeRemaining(remaining);
+
+      if (remaining <= 0) {
+        clearInterval(interval);
+        navigate({
+          to: "/auth/forgotpassword",
+          search: { error: "Reset link has expired. Please try again." },
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [expiresAt, navigate]);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -152,6 +182,9 @@ export function ResetPasswordForm({
           <h1 className="text-2xl font-bold">Reset password</h1>
           <p className="text-muted-foreground text-sm text-balance">
             Enter your new password below to reset it
+          </p>
+          <p className="text-muted-foreground text-xs">
+            Time remaining: {formatTimeRemaining(timeRemaining)}
           </p>
         </div>
         <Field>
