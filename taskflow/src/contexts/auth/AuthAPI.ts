@@ -34,6 +34,41 @@ function simulatedNetworkCall() {
   return new Promise((resolve) => setTimeout(resolve, FAKE_DELAY));
 }
 
+export async function forgetPasswordApi(email: string) {
+  await simulatedNetworkCall();
+
+  const users = getMockUsers();
+
+  const user = users.find((u) => u.email === email);
+
+  if (!user) throw new Error("Invalid email");
+
+  const { id: _0, password: _1, ...userWithoutPassword } = user;
+
+  return userWithoutPassword;
+}
+
+export async function resetPasswordApi(
+  name: string,
+  email: string,
+  password: string,
+) {
+  await simulatedNetworkCall();
+
+  const users = getMockUsers();
+
+  const idx = users.findIndex((u) => u.email === email && u.name === name);
+  const user = users[idx];
+
+  if (!user) throw new Error("Invalid email");
+
+  user.password = password;
+  users[idx] = user;
+  saveMockUsers(users);
+
+  return true;
+}
+
 export async function signinApi(
   email: string,
   password: string,
@@ -44,9 +79,7 @@ export async function signinApi(
 
   const user = users.find((u) => u.email === email && u.password === password);
 
-  if (!user) {
-    throw new Error("Invalid credentials");
-  }
+  if (!user) throw new Error("Invalid credentials");
 
   const { password: _, ...userWithoutPassword } = user;
   return userWithoutPassword;

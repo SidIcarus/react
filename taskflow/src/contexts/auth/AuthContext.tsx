@@ -7,7 +7,12 @@ import {
   useState,
 } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { signinApi, signupApi } from "./AuthAPI";
+import {
+  forgetPasswordApi,
+  resetPasswordApi,
+  signinApi,
+  signupApi,
+} from "./AuthAPI";
 import { AUTH_STORAGE_KEY } from "./constants";
 import type { AuthContextType, User } from "./types";
 
@@ -57,8 +62,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
     removeUser();
   }, [removeUser]);
 
-  const signup = useCallback(async (name: string, email: string, password: string) => {
-    await signupApi(name, email, password);
+  const signup = useCallback(
+    async (name: string, email: string, password: string) => {
+      await signupApi(name, email, password);
+    },
+    [],
+  );
+
+  const resetPassword = useCallback(
+    async (name: string, email: string, password: string) => {
+      return await resetPasswordApi(name, email, password);
+    },
+    [],
+  );
+
+  const forgetPassword = useCallback(async (email: string) => {
+    return await forgetPasswordApi(email);
   }, []);
 
   // The value object we're providing
@@ -66,6 +85,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     user,
     isLoading: !hasMounted || isLoading, // needed for potential flash when hydrating while user is null
     isAuthenticated: !!user,
+    forgetPassword,
+    resetPassword,
     signin,
     signout,
     signup,

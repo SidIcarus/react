@@ -13,6 +13,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
+import { Route as AuthResetpasswordRouteImport } from './routes/auth/resetpassword'
 import { Route as AuthForgotpasswordRouteImport } from './routes/auth/forgotpassword'
 import { Route as AuthenticatedDemoStartServerFuncsRouteImport } from './routes/_authenticated/demo/start.server-funcs'
 import { Route as AuthenticatedDemoStartApiRequestRouteImport } from './routes/_authenticated/demo/start.api-request'
@@ -39,6 +40,11 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
 const AuthSigninRoute = AuthSigninRouteImport.update({
   id: '/auth/signin',
   path: '/auth/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthResetpasswordRoute = AuthResetpasswordRouteImport.update({
+  id: '/auth/resetpassword',
+  path: '/auth/resetpassword',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotpasswordRoute = AuthForgotpasswordRouteImport.update({
@@ -92,6 +98,7 @@ const AuthenticatedDemoStartSsrDataOnlyRoute =
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth/forgotpassword': typeof AuthForgotpasswordRoute
+  '/auth/resetpassword': typeof AuthResetpasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/demo/api/names': typeof AuthenticatedDemoApiNamesRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/auth/forgotpassword': typeof AuthForgotpasswordRoute
+  '/auth/resetpassword': typeof AuthResetpasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof AuthenticatedIndexRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth/forgotpassword': typeof AuthForgotpasswordRoute
+  '/auth/resetpassword': typeof AuthResetpasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth/forgotpassword'
+    | '/auth/resetpassword'
     | '/auth/signin'
     | '/auth/signup'
     | '/demo/api/names'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth/forgotpassword'
+    | '/auth/resetpassword'
     | '/auth/signin'
     | '/auth/signup'
     | '/'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/auth/forgotpassword'
+    | '/auth/resetpassword'
     | '/auth/signin'
     | '/auth/signup'
     | '/_authenticated/'
@@ -176,6 +188,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AuthForgotpasswordRoute: typeof AuthForgotpasswordRoute
+  AuthResetpasswordRoute: typeof AuthResetpasswordRoute
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
 }
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/signin'
       fullPath: '/auth/signin'
       preLoaderRoute: typeof AuthSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/resetpassword': {
+      id: '/auth/resetpassword'
+      path: '/auth/resetpassword'
+      fullPath: '/auth/resetpassword'
+      preLoaderRoute: typeof AuthResetpasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgotpassword': {
@@ -300,6 +320,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthForgotpasswordRoute: AuthForgotpasswordRoute,
+  AuthResetpasswordRoute: AuthResetpasswordRoute,
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,
 }

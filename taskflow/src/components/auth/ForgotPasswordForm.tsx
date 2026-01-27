@@ -1,6 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useId, useState } from "react";
-import { GithubIcon } from "@/components/icons/Github";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -13,23 +12,16 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
 import { cn } from "@/lib/utils";
 
-interface SigninFormProps extends React.ComponentProps<"form"> {
-  successMessage?: string;
-}
-
-export function SigninForm({
+export function ForgotPasswordForm({
   className,
-  successMessage,
   ...props
-}: SigninFormProps) {
+}: React.ComponentProps<"form">) {
   const emailId = useId();
-  const passwordId = useId();
 
-  const { signin } = useAuth();
+  const { forgetPassword } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -39,10 +31,13 @@ export function SigninForm({
     setIsSubmitting(true);
 
     try {
-      await signin(email, password);
-      navigate({ to: "/" });
+      const user = await forgetPassword(email);
+      navigate({
+        to: "/auth/resetpassword",
+        search: { email: user.email, name: user.name },
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Signin failed");
+      setError(err instanceof Error ? err.message : "Link failed to send");
     } finally {
       setIsSubmitting(false);
     }
@@ -56,17 +51,11 @@ export function SigninForm({
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Signin to your account</h1>
+          <h1 className="text-2xl font-bold">Request password reset</h1>
           <p className="text-muted-foreground text-sm text-balance">
-            Enter your email below to signin to your account
+            Enter your email and we'll send you a a reset link
           </p>
         </div>
-        {successMessage && (
-          <div className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-sm p-3 rounded-md">
-            {successMessage}
-          </div>
-        )}
-
         {error && (
           <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md">
             {error}
@@ -85,39 +74,15 @@ export function SigninForm({
           />
         </Field>
         <Field>
-          <div className="flex items-center">
-            <FieldLabel htmlFor={passwordId}>Password</FieldLabel>
-            <a
-              href="/auth/forgotpassword"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </a>
-          </div>
-          <Input
-            id={passwordId}
-            type="password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            disabled={isSubmitting}
-          />
-        </Field>
-        <Field>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Signing in..." : "Signin"}
+            {isSubmitting ? "Sending..." : "Send Reset Link"}
           </Button>
         </Field>
-        <FieldSeparator>Or continue with</FieldSeparator>
+        <FieldSeparator>Remember your password?</FieldSeparator>
         <Field>
-          <Button variant="outline" type="button" disabled={isSubmitting}>
-            <GithubIcon />
-            Signin with GitHub
-          </Button>
           <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
             <a href="/auth/signup" className="underline underline-offset-4">
-              Sign up
+              Sign in
             </a>
           </FieldDescription>
         </Field>
