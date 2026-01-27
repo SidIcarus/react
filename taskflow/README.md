@@ -10,7 +10,7 @@ TaskFlow is a personal productivity app where users can create projects, manage 
 1. Authentication & User State
 
 - Implement a mock authentication flow (no real backend needed—use localStorage + context)
-- Login/logout functionality with protected routes
+- Signin/signout functionality with protected routes
 - Persist auth state across browser refreshes
 - Display user info in a header/navbar
 
@@ -163,15 +163,15 @@ Target: Every component with logic or interactivity has tests
 User Flows to Test:
 
 1. Authentication flow
-   - Login with valid credentials → redirects to dashboard
-   - Access protected route while logged out → redirects to login
-   - Logout → clears state, redirects to login
+   - Signin with valid credentials → redirects to dashboard
+   - Access protected route while signed out → redirects to signin
+   - Signout → clears state, redirects to signin
 2. Task lifecycle
    - Create project → create task → edit task → mark complete → delete task
    - Verify state updates propagate correctly
 3. Timer flow
    - Start timer → navigate away → verify timer continues
-   - Stop timer → verify time logged to task
+   - Stop timer → verify time signed to task
 4. Search and filter
    - Apply multiple filters → verify correct results
    - Clear filters → verify all tasks return
@@ -185,9 +185,9 @@ Target: Cover the 4-5 most critical user journeys
 Scenarios:
 
 1. New user onboarding
-   - First login, create first project, create first task
+   - First signin, create first project, create first task
 2. Daily workflow
-   - Login, view dashboard, start timer on task, complete task, check updated analytics
+   - Signin, view dashboard, start timer on task, complete task, check updated analytics
 3. Data persistence
    - Create data, refresh page, verify data persists
    - Change theme, refresh, verify theme persists
