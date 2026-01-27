@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { GalleryVerticalEnd } from "lucide-react";
 import { SignupForm } from "@/components/auth/SignupForm";
+import { TopographySVG } from "@/components/icons/Topography";
 
 export const Route = createFileRoute("/auth/signup")({
   component: RouteComponent,
@@ -10,11 +11,11 @@ export const Route = createFileRoute("/auth/signup")({
 function RouteComponent() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="bg-muted relative hidden lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="placeholder"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+      <div className="bg-muted relative hidden lg:block overflow-hidden">
+        <TopographySVG
+          fillClassName="fill-primary/30"
+          className="absolute inset-0 h-full w-full object-cover"
+          preserveAspectRatio="xMidYMid slice"
         />
       </div>
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -23,7 +24,7 @@ function RouteComponent() {
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <GalleryVerticalEnd className="size-4" />
             </div>
-            Acme Inc.
+            Taskflow
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">
