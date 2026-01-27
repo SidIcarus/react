@@ -181,8 +181,7 @@ export function SignupForm({
     // clear error when typing
     if (errors.confirmPassword && newConfirmPassword) {
       setErrors((prev) => {
-        // biome-ignore lint/correctness/noUnusedVariables: this takes out that property
-        const { confirmPassword, ...rest } = prev;
+        const { confirmPassword: _, ...rest } = prev;
         return rest;
       });
     }
