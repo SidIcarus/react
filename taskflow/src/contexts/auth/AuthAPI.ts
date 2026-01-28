@@ -1,6 +1,6 @@
 import type { User } from "./types";
+import { simulatedNetworkCall } from '@/lib/utils';
 
-const FAKE_DELAY = 300;
 const USERS_STORAGE_KEY = "taskflow_mock_users";
 
 interface MockUser {
@@ -28,10 +28,6 @@ function getMockUsers(): MockUser[] {
 
 function saveMockUsers(users: MockUser[]) {
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-}
-
-function simulatedNetworkCall() {
-  return new Promise((resolve) => setTimeout(resolve, FAKE_DELAY));
 }
 
 export async function forgetPasswordApi(email: string) {
