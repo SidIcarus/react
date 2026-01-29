@@ -15,6 +15,11 @@ import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
 import { Route as AuthResetpasswordRouteImport } from './routes/auth/resetpassword'
 import { Route as AuthForgotpasswordRouteImport } from './routes/auth/forgotpassword'
+import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
+import { Route as AuthenticatedProjectsIndexRouteImport } from './routes/_authenticated/projects/index'
+import { Route as AuthenticatedProjectsNewRouteImport } from './routes/_authenticated/projects/new'
+import { Route as AuthenticatedProjectsProjectIdIndexRouteImport } from './routes/_authenticated/projects/$projectId/index'
+import { Route as AuthenticatedProjectsProjectIdEditRouteImport } from './routes/_authenticated/projects/$projectId/edit'
 import { Route as AuthenticatedDemoStartServerFuncsRouteImport } from './routes/_authenticated/demo/start.server-funcs'
 import { Route as AuthenticatedDemoStartApiRequestRouteImport } from './routes/_authenticated/demo/start.api-request'
 import { Route as AuthenticatedDemoApiNamesRouteImport } from './routes/_authenticated/demo/api.names'
@@ -52,6 +57,35 @@ const AuthForgotpasswordRoute = AuthForgotpasswordRouteImport.update({
   path: '/auth/forgotpassword',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProjectsIndexRoute =
+  AuthenticatedProjectsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedProjectsRoute,
+  } as any)
+const AuthenticatedProjectsNewRoute =
+  AuthenticatedProjectsNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedProjectsRoute,
+  } as any)
+const AuthenticatedProjectsProjectIdIndexRoute =
+  AuthenticatedProjectsProjectIdIndexRouteImport.update({
+    id: '/$projectId/',
+    path: '/$projectId/',
+    getParentRoute: () => AuthenticatedProjectsRoute,
+  } as any)
+const AuthenticatedProjectsProjectIdEditRoute =
+  AuthenticatedProjectsProjectIdEditRouteImport.update({
+    id: '/$projectId/edit',
+    path: '/$projectId/edit',
+    getParentRoute: () => AuthenticatedProjectsRoute,
+  } as any)
 const AuthenticatedDemoStartServerFuncsRoute =
   AuthenticatedDemoStartServerFuncsRouteImport.update({
     id: '/demo/start/server-funcs',
@@ -97,13 +131,18 @@ const AuthenticatedDemoStartSsrDataOnlyRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/projects': typeof AuthenticatedProjectsRouteWithChildren
   '/auth/forgotpassword': typeof AuthForgotpasswordRoute
   '/auth/resetpassword': typeof AuthResetpasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/projects/': typeof AuthenticatedProjectsIndexRoute
   '/demo/api/names': typeof AuthenticatedDemoApiNamesRoute
   '/demo/start/api-request': typeof AuthenticatedDemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof AuthenticatedDemoStartServerFuncsRoute
+  '/projects/$projectId/edit': typeof AuthenticatedProjectsProjectIdEditRoute
+  '/projects/$projectId/': typeof AuthenticatedProjectsProjectIdIndexRoute
   '/demo/start/ssr/data-only': typeof AuthenticatedDemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof AuthenticatedDemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof AuthenticatedDemoStartSsrSpaModeRoute
@@ -115,9 +154,13 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/': typeof AuthenticatedIndexRoute
+  '/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/projects': typeof AuthenticatedProjectsIndexRoute
   '/demo/api/names': typeof AuthenticatedDemoApiNamesRoute
   '/demo/start/api-request': typeof AuthenticatedDemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof AuthenticatedDemoStartServerFuncsRoute
+  '/projects/$projectId/edit': typeof AuthenticatedProjectsProjectIdEditRoute
+  '/projects/$projectId': typeof AuthenticatedProjectsProjectIdIndexRoute
   '/demo/start/ssr/data-only': typeof AuthenticatedDemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof AuthenticatedDemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof AuthenticatedDemoStartSsrSpaModeRoute
@@ -126,14 +169,19 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/projects': typeof AuthenticatedProjectsRouteWithChildren
   '/auth/forgotpassword': typeof AuthForgotpasswordRoute
   '/auth/resetpassword': typeof AuthResetpasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/_authenticated/projects/': typeof AuthenticatedProjectsIndexRoute
   '/_authenticated/demo/api/names': typeof AuthenticatedDemoApiNamesRoute
   '/_authenticated/demo/start/api-request': typeof AuthenticatedDemoStartApiRequestRoute
   '/_authenticated/demo/start/server-funcs': typeof AuthenticatedDemoStartServerFuncsRoute
+  '/_authenticated/projects/$projectId/edit': typeof AuthenticatedProjectsProjectIdEditRoute
+  '/_authenticated/projects/$projectId/': typeof AuthenticatedProjectsProjectIdIndexRoute
   '/_authenticated/demo/start/ssr/data-only': typeof AuthenticatedDemoStartSsrDataOnlyRoute
   '/_authenticated/demo/start/ssr/full-ssr': typeof AuthenticatedDemoStartSsrFullSsrRoute
   '/_authenticated/demo/start/ssr/spa-mode': typeof AuthenticatedDemoStartSsrSpaModeRoute
@@ -143,13 +191,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/projects'
     | '/auth/forgotpassword'
     | '/auth/resetpassword'
     | '/auth/signin'
     | '/auth/signup'
+    | '/projects/new'
+    | '/projects/'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
+    | '/projects/$projectId/edit'
+    | '/projects/$projectId/'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
@@ -161,9 +214,13 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/'
+    | '/projects/new'
+    | '/projects'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
+    | '/projects/$projectId/edit'
+    | '/projects/$projectId'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
@@ -171,14 +228,19 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/_authenticated/projects'
     | '/auth/forgotpassword'
     | '/auth/resetpassword'
     | '/auth/signin'
     | '/auth/signup'
     | '/_authenticated/'
+    | '/_authenticated/projects/new'
+    | '/_authenticated/projects/'
     | '/_authenticated/demo/api/names'
     | '/_authenticated/demo/start/api-request'
     | '/_authenticated/demo/start/server-funcs'
+    | '/_authenticated/projects/$projectId/edit'
+    | '/_authenticated/projects/$projectId/'
     | '/_authenticated/demo/start/ssr/data-only'
     | '/_authenticated/demo/start/ssr/full-ssr'
     | '/_authenticated/demo/start/ssr/spa-mode'
@@ -237,6 +299,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotpasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/projects': {
+      id: '/_authenticated/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof AuthenticatedProjectsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/projects/': {
+      id: '/_authenticated/projects/'
+      path: '/'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof AuthenticatedProjectsIndexRouteImport
+      parentRoute: typeof AuthenticatedProjectsRoute
+    }
+    '/_authenticated/projects/new': {
+      id: '/_authenticated/projects/new'
+      path: '/new'
+      fullPath: '/projects/new'
+      preLoaderRoute: typeof AuthenticatedProjectsNewRouteImport
+      parentRoute: typeof AuthenticatedProjectsRoute
+    }
+    '/_authenticated/projects/$projectId/': {
+      id: '/_authenticated/projects/$projectId/'
+      path: '/$projectId'
+      fullPath: '/projects/$projectId/'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdIndexRouteImport
+      parentRoute: typeof AuthenticatedProjectsRoute
+    }
+    '/_authenticated/projects/$projectId/edit': {
+      id: '/_authenticated/projects/$projectId/edit'
+      path: '/$projectId/edit'
+      fullPath: '/projects/$projectId/edit'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdEditRouteImport
+      parentRoute: typeof AuthenticatedProjectsRoute
+    }
     '/_authenticated/demo/start/server-funcs': {
       id: '/_authenticated/demo/start/server-funcs'
       path: '/demo/start/server-funcs'
@@ -289,7 +386,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedProjectsRouteChildren {
+  AuthenticatedProjectsNewRoute: typeof AuthenticatedProjectsNewRoute
+  AuthenticatedProjectsIndexRoute: typeof AuthenticatedProjectsIndexRoute
+  AuthenticatedProjectsProjectIdEditRoute: typeof AuthenticatedProjectsProjectIdEditRoute
+  AuthenticatedProjectsProjectIdIndexRoute: typeof AuthenticatedProjectsProjectIdIndexRoute
+}
+
+const AuthenticatedProjectsRouteChildren: AuthenticatedProjectsRouteChildren = {
+  AuthenticatedProjectsNewRoute: AuthenticatedProjectsNewRoute,
+  AuthenticatedProjectsIndexRoute: AuthenticatedProjectsIndexRoute,
+  AuthenticatedProjectsProjectIdEditRoute:
+    AuthenticatedProjectsProjectIdEditRoute,
+  AuthenticatedProjectsProjectIdIndexRoute:
+    AuthenticatedProjectsProjectIdIndexRoute,
+}
+
+const AuthenticatedProjectsRouteWithChildren =
+  AuthenticatedProjectsRoute._addFileChildren(
+    AuthenticatedProjectsRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
+  AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedDemoApiNamesRoute: typeof AuthenticatedDemoApiNamesRoute
   AuthenticatedDemoStartApiRequestRoute: typeof AuthenticatedDemoStartApiRequestRoute
@@ -301,6 +420,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedProjectsRoute: AuthenticatedProjectsRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedDemoApiNamesRoute: AuthenticatedDemoApiNamesRoute,
   AuthenticatedDemoStartApiRequestRoute: AuthenticatedDemoStartApiRequestRoute,
