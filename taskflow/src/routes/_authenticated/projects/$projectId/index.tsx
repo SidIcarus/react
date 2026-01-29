@@ -35,7 +35,7 @@ function ProjectDetailPage() {
   }
 
   return (
-    <div className="container py-8">
+    <div className="container py-8 mx-auto">
       <div className="mb-8">
         <Link
           to="/projects"
