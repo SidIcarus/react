@@ -1,5 +1,5 @@
+import { simulatedNetworkCall } from "@/lib/utils";
 import type { User } from "./types";
-import { simulatedNetworkCall } from '@/lib/utils';
 
 const USERS_STORAGE_KEY = "taskflow_mock_users";
 
