@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { AuthProvider } from "@/contexts/auth";
 import { ProjectsProvider } from "@/contexts/projects";
+import { TasksProvider } from "@/contexts/tasks";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -40,7 +41,9 @@ function RootComponent() {
   return (
     <AuthProvider>
       <ProjectsProvider>
-        <Outlet />
+        <TasksProvider>
+          <Outlet />
+        </TasksProvider>
       </ProjectsProvider>
     </AuthProvider>
   );

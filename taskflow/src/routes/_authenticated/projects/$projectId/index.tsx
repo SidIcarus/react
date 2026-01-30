@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { KanbanBoard } from "@/components/KanbanBoard";
 import { Button } from "@/components/ui/button";
 import { useProjects } from "@/contexts/projects";
+import { useTasks } from "@/contexts/tasks";
 
 export const Route = createFileRoute("/_authenticated/projects/$projectId/")({
   component: ProjectDetailPage,
@@ -11,9 +13,11 @@ export const Route = createFileRoute("/_authenticated/projects/$projectId/")({
 function ProjectDetailPage() {
   const { projectId } = Route.useParams();
   const { getProject, deleteProject } = useProjects();
+  const { getTasksByProject, createTask, updateTask, deleteTask } = useTasks();
   const navigate = useNavigate();
 
   const project = getProject(projectId);
+  const tasks = getTasksByProject(projectId);
   const [isDeleting, setIsDeleting] = useState(false);
 
   if (!project) {
@@ -21,8 +25,13 @@ function ProjectDetailPage() {
     return null;
   }
 
-  async function handleDelete() {
-    if (!confirm("Are you sure you want to delete this project?")) return;
+  async function onClickDeleteProject() {
+    if (
+      !confirm(
+        "Are you sure you want to delete this project and all its tasks?",
+      )
+    )
+      return;
 
     setIsDeleting(true);
     try {
@@ -34,8 +43,13 @@ function ProjectDetailPage() {
     }
   }
 
+  function onStartTimer(taskId: string) {
+    // We'll implement this in the timer section
+    console.log("Start timer for task:", taskId);
+  }
+
   return (
-    <div className="container py-8 mx-auto">
+    <div className="container mx-auto py-8">
       <div className="mb-8">
         <Link
           to="/projects"
@@ -64,7 +78,7 @@ function ProjectDetailPage() {
           </Button>
           <Button
             variant="destructive"
-            onClick={handleDelete}
+            onClick={onClickDeleteProject}
             disabled={isDeleting}
           >
             <Trash2 className="size-4 mr-2" />
@@ -73,14 +87,18 @@ function ProjectDetailPage() {
         </div>
       </div>
 
-      <p className="text-muted-foreground mb-8">
-        {project.description || "No description"}
-      </p>
+      {project.description && (
+        <p className="text-muted-foreground mb-8">{project.description}</p>
+      )}
 
-      {/* Tasks will go here later */}
-      <div className="border rounded-lg p-8 text-center text-muted-foreground">
-        Tasks coming soon...
-      </div>
+      <KanbanBoard
+        projectId={projectId}
+        tasks={tasks}
+        onCreateTask={createTask}
+        onUpdateTask={updateTask}
+        onDeleteTask={deleteTask}
+        onStartTimer={onStartTimer}
+      />
     </div>
   );
 }
