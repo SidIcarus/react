@@ -1,53 +1,50 @@
-import { useEffect, useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
-
-import { Button } from "@/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { CampaignRangeSelect } from "@/components/campaigns/CampaignRangeSelect";
+import { CampaignsTable } from "@/components/campaigns/CampaignsTable";
+import { CampaignsTableColumns } from "@/components/campaigns/CampaignsTableColumn";
+import { TeamTable } from "@/components/dashboard/TeamTable";
+import { TeamTableColumns } from "@/components/dashboard/TeamTableColumns";
+import { ExampleChart } from "@/components/exampleChart";
+import { Button } from "@/components/ui/button";
 // import { Spinner } from '@/components/ui/spinner'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { Campaign } from "./api.campaigns";
+import type { DashboardChartData } from "./api.dashboardCharts";
+import type { TeamMember } from "./api.teamMembers";
 
-import { type TeamMember } from './api.teamMembers'
-import { type DashboardChartData } from './api.dashboardCharts'
-import { type Campaign } from './api.campaigns'
-
-import { CampaignRangeSelect } from '@/components/campaigns/CampaignRangeSelect'
-import { CampaignsTableColumns } from "@/components/campaigns/CampaignsTableColumn"
-import { CampaignsTable } from "@/components/campaigns/CampaignsTable"
-
-import { TeamTableColumns } from "@/components/dashboard/TeamTableColumns"
-import { TeamTable } from '@/components/dashboard/TeamTable'
-
-import { ExampleChart } from '@/components/exampleChart'
 // import { ExampleCard } from '@/components/exampleCard'
 
 async function getDashboardChartsData() {
-  const res = await fetch('/api/dashboardCharts')
-  return await (res.json() as Promise<DashboardChartData>)
+  const res = await fetch("/api/dashboardCharts");
+  return await (res.json() as Promise<DashboardChartData>);
 }
 
 async function getCampaigns() {
-  const res = await fetch('/api/campaigns')
-  return await (res.json() as Promise<Campaign[]>)
+  const res = await fetch("/api/campaigns");
+  return await (res.json() as Promise<Campaign[]>);
 }
 
 async function getTeamMembers() {
-  const res = await fetch('/api/teamMembers')
-  return await (res.json() as Promise<TeamMember[]>)
+  const res = await fetch("/api/teamMembers");
+  return await (res.json() as Promise<TeamMember[]>);
 }
 
-export const Route = createFileRoute('/dashboard')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/dashboard")({
+  component: Dashboard,
+});
 
-function RouteComponent() {
-  const [teamMembers, setTeamMembers] = useState<Array<TeamMember>>([])
-  const [campaigns, setCampaigns] = useState<Array<Campaign>>([])
-  const [dashboardChartsData, setDashboardChartsData] = useState<DashboardChartData>({
-    clickThroughRate: { percent: 0, total: 0 },
-    engagementRate: { percent: 0, total: 0 },
-    impressions: { total: 0, unique: 0 },
-  })
+export function Dashboard() {
+  const [teamMembers, setTeamMembers] = useState<Array<TeamMember>>([]);
+  const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
+  const [dashboardChartsData, setDashboardChartsData] =
+    useState<DashboardChartData>({
+      clickThroughRate: { percent: 0, total: 0 },
+      engagementRate: { percent: 0, total: 0 },
+      impressions: { total: 0, unique: 0 },
+    });
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   /**
    * This could be refactored to use tanstack query to add in
@@ -65,24 +62,22 @@ function RouteComponent() {
       getTeamMembers().then(setTeamMembers),
     ])
       .catch(console.error)
-      .finally(() => setIsLoading(false))
-  }, [])
+      .finally(() => setIsLoading(false));
+  }, []);
 
   return (
-    <div
-      className="container mx-auto flex flex-col justify-start min-h-screen px-10 text-white w-full"
-    >
+    <div className="container mx-auto flex flex-col justify-start min-h-screen px-10 text-white w-full">
       <div className="w-full flex justify-between items-center py-3">
         ADVERTISER OVERVIEW
         <div className="flex">
-          <CampaignRangeSelect/>
+          <CampaignRangeSelect />
           <Button variant="secondary">New Campaign</Button>
         </div>
       </div>
       <div className="grid dashboard-grids">
-        <ExampleChart/>
-        <ExampleChart/>
-        <ExampleChart/>
+        <ExampleChart />
+        <ExampleChart />
+        <ExampleChart />
       </div>
       <Tabs defaultValue="campaigns" className="w-full py-10">
         <TabsList>
@@ -97,5 +92,5 @@ function RouteComponent() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
