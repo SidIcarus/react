@@ -1,23 +1,24 @@
-import { Link } from '@tanstack/react-router'
-
-import { useState } from 'react'
+import { Link } from "@tanstack/react-router";
 import {
+  BrickWall,
+  ChartNoAxesCombined,
   ChevronDown,
   ChevronRight,
   Home,
-  Menu,
-  X,
-  BrickWall,
-  ChartNoAxesCombined,
   Images,
   LayoutDashboard,
+  Menu,
   MonitorPlay,
   Route,
-} from 'lucide-react'
+  X,
+} from "lucide-react";
+import { useState } from "react";
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [groupedExpandedBuilder, setGroupedExpandedBuilder] = useState<Record<string, boolean>>({})
+  const [isOpen, setIsOpen] = useState(false);
+  const [groupedExpandedBuilder, setGroupedExpandedBuilder] = useState<
+    Record<string, boolean>
+  >({});
   // const [groupedExpandedSSR, setGroupedExpandedSSR] = useState<Record<string, boolean>>({})
 
   return (
@@ -44,7 +45,7 @@ export default function Header() {
 
       <aside
         className={`fixed top-0 left-0 h-full w-80 bg-gray-900 text-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
@@ -65,7 +66,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
             }}
           >
             <Home size={20} />
@@ -108,7 +109,7 @@ export default function Header() {
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
                 activeProps={{
                   className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                    "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
                 }}
               >
                 <BrickWall size={20} />
@@ -121,7 +122,7 @@ export default function Header() {
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
                 activeProps={{
                   className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                    "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
                 }}
               >
                 <MonitorPlay size={20} />
@@ -135,7 +136,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
             }}
           >
             <Images size={20} />
@@ -147,7 +148,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
             }}
           >
             <Route size={20} />
@@ -159,7 +160,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
             }}
           >
             <ChartNoAxesCombined size={20} />
@@ -171,7 +172,7 @@ export default function Header() {
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
             activeProps={{
               className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+                "flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2",
             }}
           >
             <Home size={20} />
@@ -282,5 +283,5 @@ export default function Header() {
         </nav>
       </aside>
     </>
-  )
+  );
 }

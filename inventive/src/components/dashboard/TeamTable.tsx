@@ -1,21 +1,20 @@
-"use client"
-
-import { useState } from 'react'
+"use client";
 
 import {
-  ColumnDef,
-  ColumnFiltersState, // for filtering
+  type ColumnDef,
+  type ColumnFiltersState, // for filtering
   flexRender,
   getCoreRowModel,
   getFilteredRowModel, // for filtering
   getPaginationRowModel, // for pagination
   getSortedRowModel, // for sorting
-  SortingState, // for sorting
+  type SortingState, // for sorting
   useReactTable,
-  VisibilityState, // for column visibility
-} from "@tanstack/react-table"
+  type VisibilityState, // for column visibility
+} from "@tanstack/react-table";
+import { useState } from "react";
 
-import { Input } from '@/components/ui/input' // for filtering
+import { Input } from "@/components/ui/input"; // for filtering
 
 import {
   Table,
@@ -24,22 +23,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { TablePagination } from '../table/TablePagination' // for pagination
-import { TableViewOptions } from '../table/TableViewOptions' // for column visibility
+} from "@/components/ui/table";
+import { TablePagination } from "../table/TablePagination"; // for pagination
+import { TableViewOptions } from "../table/TableViewOptions"; // for column visibility
 
 interface TeamTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function TeamTable<TData, TValue>({
   columns,
   data,
 }: TeamTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]) // for sorting
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]) // for filtering
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}) // for column visibility
+  const [sorting, setSorting] = useState<SortingState>([]); // for sorting
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]); // for filtering
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}); // for column visibility
 
   const table = useReactTable({
     data,
@@ -56,7 +55,7 @@ export function TeamTable<TData, TValue>({
       columnVisibility, // for column visibility
       sorting, // for sorting
     },
-  })
+  });
 
   return (
     <div>
@@ -85,10 +84,10 @@ export function TeamTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -102,14 +101,20 @@ export function TeamTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -120,5 +125,5 @@ export function TeamTable<TData, TValue>({
       {/* for pagination */}
       <TablePagination table={table} />
     </div>
-  )
+  );
 }

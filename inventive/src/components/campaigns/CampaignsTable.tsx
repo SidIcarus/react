@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from 'react'
+"use client";
 
 import {
   type ColumnDef,
@@ -13,10 +11,10 @@ import {
   type SortingState, // for sorting
   useReactTable,
   type VisibilityState, // for column visibility
-} from "@tanstack/react-table"
-
-import { Input } from '@/components/ui/input' // for filtering
-import { Button } from '@/components/ui/button'
+} from "@tanstack/react-table";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"; // for filtering
 
 import {
   Select,
@@ -25,7 +23,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import {
   Table,
@@ -34,29 +32,31 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { TablePagination } from '../table/TablePagination' // for pagination
-import { TableViewOptions } from '../table/TableViewOptions' // for column visibility
+} from "@/components/ui/table";
+import { TablePagination } from "../table/TablePagination"; // for pagination
+import { TableViewOptions } from "../table/TableViewOptions"; // for column visibility
 // import { TableViewOptionsSimple } from '../table/TableViewOptionsSimple'
 
-import type { Campaign } from '@/routes/api/campaigns'
+import type { Campaign } from "@/routes/api/campaigns";
 
 interface CampaignsTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function CampaignsTable<TData, TValue>({
   columns,
   data,
 }: CampaignsTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]) // for sorting
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]) // for filtering
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}) // for column visibility
-  const [rowSelection, setRowSelection] = useState({}) // for row selection
+  const [sorting, setSorting] = useState<SortingState>([]); // for sorting
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]); // for filtering
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({}); // for column visibility
+  const [rowSelection, setRowSelection] = useState({}); // for row selection
 
   // May not need to keep the state myself and just let it live within the select...
-  const [campaignStatusFilter, setCampaignStatusFilter] = useState<Campaign['status'] | 'All'>('All')
+  const [campaignStatusFilter, setCampaignStatusFilter] = useState<
+    Campaign["status"] | "All"
+  >("All");
 
   const table = useReactTable({
     data,
@@ -75,7 +75,7 @@ export function CampaignsTable<TData, TValue>({
       sorting, // for sorting
       rowSelection, // for row selection
     },
-  })
+  });
 
   return (
     <div>
@@ -94,16 +94,20 @@ export function CampaignsTable<TData, TValue>({
             disabled={table.getFilteredSelectedRowModel().rows.length === 0}
             variant="secondary"
             size="sm"
-          >Archive</Button>
+          >
+            Archive
+          </Button>
           <Select
             value={campaignStatusFilter}
-            onValueChange={(value: Campaign['status'] | 'All') => {
-              setCampaignStatusFilter(value)
-              table.getColumn('status')?.setFilterValue(value === 'All' ? undefined : value)
+            onValueChange={(value: Campaign["status"] | "All") => {
+              setCampaignStatusFilter(value);
+              table
+                .getColumn("status")
+                ?.setFilterValue(value === "All" ? undefined : value);
             }}
           >
             <SelectTrigger size="sm">
-              <SelectValue/>
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -129,10 +133,10 @@ export function CampaignsTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -146,14 +150,20 @@ export function CampaignsTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -164,5 +174,5 @@ export function CampaignsTable<TData, TValue>({
       {/* for pagination */}
       <TablePagination table={table} />
     </div>
-  )
+  );
 }

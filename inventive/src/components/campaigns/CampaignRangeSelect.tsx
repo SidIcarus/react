@@ -6,14 +6,14 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 export function CampaignRangeSelect() {
   return (
     <div className="px-4">
       <Select defaultValue="All">
         <SelectTrigger size="sm">
-          <SelectValue/>
+          <SelectValue />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -26,5 +26,5 @@ export function CampaignRangeSelect() {
         </SelectContent>
       </Select>
     </div>
-  )
+  );
 }

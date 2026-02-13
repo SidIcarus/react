@@ -1,4 +1,26 @@
-import { useState, useMemo } from "react"
+import {
+  BookOpen,
+  ChevronDown,
+  Key,
+  LogOut,
+  Plus,
+  Search,
+  Settings,
+  User,
+  Users,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,30 +29,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuGroup,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import {
-  Search,
-  Settings,
-  ChevronDown,
-  Plus,
-  User,
-  Key,
-  Users,
-  BookOpen,
-  LogOut,
-} from "lucide-react"
+} from "@/components/ui/navigation-menu";
+import { Separator } from "@/components/ui/separator";
 
 const advertisers = [
   { id: 1, name: "Acme Corporation" },
@@ -40,29 +40,29 @@ const advertisers = [
   { id: 5, name: "Creative Solutions Ltd" },
   { id: 6, name: "Marketing Pro Agency" },
   { id: 7, name: "Brand Builders Co" },
-]
+];
 
 export default function Header() {
-  const [selectedAdvertiser, setSelectedAdvertiser] = useState(advertisers[0])
-  const [searchQuery, setSearchQuery] = useState("")
-  const [advertiserDropdownOpen, setAdvertiserDropdownOpen] = useState(false)
+  const [selectedAdvertiser, setSelectedAdvertiser] = useState(advertisers[0]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [advertiserDropdownOpen, setAdvertiserDropdownOpen] = useState(false);
 
   const filteredAdvertisers = useMemo(() => {
-    if (!searchQuery.trim()) return advertisers
+    if (!searchQuery.trim()) return advertisers;
     return advertisers.filter((advertiser) =>
-      advertiser.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  }, [searchQuery])
+      advertiser.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [searchQuery]);
 
   const handleSignout = () => {
-    console.log("Signing out...")
+    console.log("Signing out...");
     // Implement your signout logic here
-  }
+  };
 
   const handleNewAdvertiser = () => {
-    console.log("Creating new advertiser...")
+    console.log("Creating new advertiser...");
     // Implement new advertiser logic here
-  }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:border-slate-800 dark:bg-slate-950/95 dark:supports-[backdrop-filter]:bg-slate-950/80">
@@ -190,9 +190,9 @@ export default function Header() {
                     <DropdownMenuItem
                       key={advertiser.id}
                       onClick={() => {
-                        setSelectedAdvertiser(advertiser)
-                        setSearchQuery("")
-                        setAdvertiserDropdownOpen(false)
+                        setSelectedAdvertiser(advertiser);
+                        setSearchQuery("");
+                        setAdvertiserDropdownOpen(false);
                       }}
                       className={
                         selectedAdvertiser.id === advertiser.id
@@ -224,19 +224,28 @@ export default function Header() {
               <DropdownMenuLabel>Settings</DropdownMenuLabel>
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                  <a href="/settings/personal" className="flex items-center gap-2 cursor-pointer">
+                  <a
+                    href="/settings/personal"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <User className="h-4 w-4" />
                     Personal Settings
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <a href="/settings/api" className="flex items-center gap-2 cursor-pointer">
+                  <a
+                    href="/settings/api"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <Key className="h-4 w-4" />
                     API Settings
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <a href="/settings/users" className="flex items-center gap-2 cursor-pointer">
+                  <a
+                    href="/settings/users"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <Users className="h-4 w-4" />
                     User & Permissions
                   </a>
@@ -248,7 +257,10 @@ export default function Header() {
               <DropdownMenuLabel>Help</DropdownMenuLabel>
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                  <a href="/help/knowledge-base" className="flex items-center gap-2 cursor-pointer">
+                  <a
+                    href="/help/knowledge-base"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <BookOpen className="h-4 w-4" />
                     Knowledge Base
                   </a>
@@ -269,5 +281,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

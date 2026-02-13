@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/builder/video')({
+export const Route = createFileRoute("/builder/video")({
   component,
-})
+});
 
 function component() {
-  return <div>Hello "/builder/video"!</div>
+  return <div>Hello "/builder/video"!</div>;
 }

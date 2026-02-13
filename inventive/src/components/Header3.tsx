@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-
-import { ChevronDown, Settings, Menu, X, Search } from "lucide-react";
+import { ChevronDown, Menu, Search, Settings, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 // Mock data
 const advertisers = [
@@ -48,7 +47,11 @@ const Dropdown = ({
   isOpen = false,
   onToggle,
   closeOnSelect = true,
-}: { align: "left" | "right", isOpen: boolean, onToggle: (open: boolean) => void }) => {
+}: {
+  align: "left" | "right";
+  isOpen: boolean;
+  onToggle: (open: boolean) => void;
+}) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -69,7 +72,8 @@ const Dropdown = ({
       {/* biome-ignore lint/a11y/noStaticElementInteractions: should be interactive */}
       <div onClick={() => onToggle(!isOpen)}>{trigger}</div>
       {/* biome-ignore lint/a11y/noStaticElementInteractions: should be interactive */}
-      {isOpen && (<div
+      {isOpen && (
+        <div
           className={`absolute top-full mt-1 min-w-[200px] bg-slate-800 border border-slate-700 rounded shadow-lg z-50 ${
             align === "right" ? "right-0" : "left-0"
           }`}
@@ -83,7 +87,13 @@ const Dropdown = ({
 };
 
 // Advertiser Dropdown with Search
-const AdvertiserDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (open: boolean) => void}) => {
+const AdvertiserDropdown = ({
+  isOpen,
+  onToggle,
+}: {
+  isOpen: boolean;
+  onToggle: (open: boolean) => void;
+}) => {
   const [search, setSearch] = useState("");
   const filteredAdvertisers = advertisers.filter((a) =>
     a.toLowerCase().includes(search.toLowerCase()),
@@ -144,7 +154,13 @@ const AdvertiserDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (
 };
 
 // Settings Dropdown
-const SettingsDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (open: boolean) => void}) => (
+const SettingsDropdown = ({
+  isOpen,
+  onToggle,
+}: {
+  isOpen: boolean;
+  onToggle: (open: boolean) => void;
+}) => (
   <Dropdown
     isOpen={isOpen}
     onToggle={onToggle}
@@ -181,7 +197,13 @@ const SettingsDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (op
 );
 
 // Builder Dropdown
-const BuilderDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (open: boolean) => void}) => (
+const BuilderDropdown = ({
+  isOpen,
+  onToggle,
+}: {
+  isOpen: boolean;
+  onToggle: (open: boolean) => void;
+}) => (
   <Dropdown
     isOpen={isOpen}
     onToggle={onToggle}
@@ -210,7 +232,13 @@ const BuilderDropdown = ({ isOpen, onToggle }: { isOpen: boolean, onToggle: (ope
 );
 
 // Mobile Side Nav (Left - Navigation)
-const MobileNavDrawer = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void}) => {
+const MobileNavDrawer = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const [builderOpen, setBuilderOpen] = useState(false);
 
   return (
@@ -309,7 +337,13 @@ const MobileNavDrawer = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => 
 };
 
 // Mobile Settings Drawer (Right - Settings & Advertiser)
-const MobileSettingsDrawer = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void}) => {
+const MobileSettingsDrawer = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const [advertiserSearch, setAdvertiserSearch] = useState("");
   const [advertiserOpen, setAdvertiserOpen] = useState(true);
 
@@ -451,7 +485,7 @@ export default function ResponsiveNavbar() {
     }
   };
 
-  const handleAdvertiserToggle = (open: boolean)  => {
+  const handleAdvertiserToggle = (open: boolean) => {
     setAdvertiserOpen(open);
     if (open) {
       setBuilderOpen(false);

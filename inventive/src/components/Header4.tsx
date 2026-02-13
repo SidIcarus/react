@@ -1,16 +1,21 @@
-import React, { useState } from "react"
-import { ChevronDown, Menu, Settings, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { ChevronDown, Menu, Search, Settings } from "lucide-react";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,22 +23,17 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu"
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 // Mock data
 const advertisers = [
@@ -48,12 +48,20 @@ const advertisers = [
   "Flickr",
   "Groundswell",
   "Her Campus",
-]
+];
 
 const builderItems = [
-  { label: "Rich Media Ad Builder", subLabel: "Create interactive rich media advertisements", href: "/builder/" },
-  { label: "Instream Video Ad Builder", subLabel: "Build engaging instream video content", href: "/builder/video" },
-]
+  {
+    label: "Rich Media Ad Builder",
+    subLabel: "Create interactive rich media advertisements",
+    href: "/builder/",
+  },
+  {
+    label: "Instream Video Ad Builder",
+    subLabel: "Build engaging instream video content",
+    href: "/builder/video",
+  },
+];
 
 const settingsItems = [
   {
@@ -71,7 +79,7 @@ const settingsItems = [
       { label: "Sign Out", href: "#" },
     ],
   },
-]
+];
 
 // Brand Logo Placeholder Component
 const BrandLogo = () => (
@@ -82,14 +90,20 @@ const BrandLogo = () => (
       INVENTIVE
     </div>
   </div>
-)
+);
 
 // Advertiser Dropdown Component
-const AdvertiserDropdown = ({ isOpen, onToggleIsOpen }: { isOpen: boolean, onToggleIsOpen: (open: boolean) => void}) => {
-  const [search, setSearch] = useState("")
+const AdvertiserDropdown = ({
+  isOpen,
+  onToggleIsOpen,
+}: {
+  isOpen: boolean;
+  onToggleIsOpen: (open: boolean) => void;
+}) => {
+  const [search, setSearch] = useState("");
   const filteredAdvertisers = advertisers.filter((a) =>
-    a.toLowerCase().includes(search.toLowerCase())
-  )
+    a.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
     <DropdownMenu>
@@ -99,7 +113,9 @@ const AdvertiserDropdown = ({ isOpen, onToggleIsOpen }: { isOpen: boolean, onTog
           className="text-slate-300 hover:text-white hover:bg-transparent gap-2"
         >
           Default Advertiser
-          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -134,8 +150,8 @@ const AdvertiserDropdown = ({ isOpen, onToggleIsOpen }: { isOpen: boolean, onTog
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
 // Settings Dropdown Component
 const SettingsDropdown = () => (
@@ -163,7 +179,7 @@ const SettingsDropdown = () => (
       ))}
     </DropdownMenuContent>
   </DropdownMenu>
-)
+);
 
 // Desktop Navigation Menu
 const DesktopNav = () => (
@@ -231,11 +247,11 @@ const DesktopNav = () => (
       </NavigationMenuItem>
     </NavigationMenuList>
   </NavigationMenu>
-)
+);
 
 // Mobile Navigation Sheet (Left)
 const MobileNavSheet = () => {
-  const [builderOpen, setBuilderOpen] = useState(false)
+  const [builderOpen, setBuilderOpen] = useState(false);
 
   return (
     <Sheet>
@@ -283,7 +299,7 @@ const MobileNavSheet = () => {
                 <ChevronDown
                   className={cn(
                     "h-4 w-4 transition-transform",
-                    builderOpen && "rotate-180"
+                    builderOpen && "rotate-180",
                   )}
                 />
               </Button>
@@ -331,16 +347,22 @@ const MobileNavSheet = () => {
         </nav>
       </SheetContent>
     </Sheet>
-  )
-}
+  );
+};
 
 // Mobile Settings Sheet (Right)
-const MobileSettingsSheet = ({ isAdvertiserOpen, onToggleIsAdvertiserOpen }: { isAdvertiserOpen: boolean, onToggleIsAdvertiserOpen: (open: boolean) => void }) => {
-  const [advertiserSearch, setAdvertiserSearch] = useState("")
+const MobileSettingsSheet = ({
+  isAdvertiserOpen,
+  onToggleIsAdvertiserOpen,
+}: {
+  isAdvertiserOpen: boolean;
+  onToggleIsAdvertiserOpen: (open: boolean) => void;
+}) => {
+  const [advertiserSearch, setAdvertiserSearch] = useState("");
 
   const filteredAdvertisers = advertisers.filter((a) =>
-    a.toLowerCase().includes(advertiserSearch.toLowerCase())
-  )
+    a.toLowerCase().includes(advertiserSearch.toLowerCase()),
+  );
 
   return (
     <Sheet>
@@ -364,7 +386,10 @@ const MobileSettingsSheet = ({ isAdvertiserOpen, onToggleIsAdvertiserOpen }: { i
         <div className="overflow-y-auto h-[calc(100vh-65px)]">
           {/* Advertiser Section */}
           <div className="border-b border-slate-700">
-            <Collapsible open={isAdvertiserOpen} onOpenChange={onToggleIsAdvertiserOpen}>
+            <Collapsible
+              open={isAdvertiserOpen}
+              onOpenChange={onToggleIsAdvertiserOpen}
+            >
               <CollapsibleTrigger asChild>
                 <Button
                   variant="ghost"
@@ -380,7 +405,7 @@ const MobileSettingsSheet = ({ isAdvertiserOpen, onToggleIsAdvertiserOpen }: { i
                     <ChevronDown
                       className={cn(
                         "h-4 w-4 text-slate-400 transition-transform",
-                        isAdvertiserOpen && "rotate-180"
+                        isAdvertiserOpen && "rotate-180",
                       )}
                     />
                   </div>
@@ -441,12 +466,12 @@ const MobileSettingsSheet = ({ isAdvertiserOpen, onToggleIsAdvertiserOpen }: { i
         </div>
       </SheetContent>
     </Sheet>
-  )
-}
+  );
+};
 
 // Main Navbar Component
 export default function Header() {
-  const [isAdvertiserOpen, setIsAdvertiserOpen] = useState(true)
+  const [isAdvertiserOpen, setIsAdvertiserOpen] = useState(true);
 
   return (
     <nav className="border-b border-slate-700 px-4 h-14 flex items-center justify-between">
@@ -461,13 +486,19 @@ export default function Header() {
       <div className="flex items-center gap-1">
         {/* Desktop dropdowns */}
         <div className="hidden lg:flex items-center">
-          <AdvertiserDropdown isOpen={isAdvertiserOpen} onToggle={setIsAdvertiserOpen}/>
+          <AdvertiserDropdown
+            isOpen={isAdvertiserOpen}
+            onToggle={setIsAdvertiserOpen}
+          />
           <SettingsDropdown />
         </div>
 
         {/* Mobile settings */}
-        <MobileSettingsSheet isAdvertiserOpen={isAdvertiserOpen} onToggleIsAdvertiserOpen={setIsAdvertiserOpen}/>
+        <MobileSettingsSheet
+          isAdvertiserOpen={isAdvertiserOpen}
+          onToggleIsAdvertiserOpen={setIsAdvertiserOpen}
+        />
       </div>
     </nav>
-  )
+  );
 }

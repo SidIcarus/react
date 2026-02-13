@@ -1,22 +1,18 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
-import {
-  MoreHorizontal,
-} from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox" // for visibility
+import type { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox"; // for visibility
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { toast } from 'sonner'
-
-import { TableColumnHeader } from '../table/TableColumnHeader'
-import type { Campaign } from '@/routes/api/campaigns'
+} from "@/components/ui/dropdown-menu";
+import type { Campaign } from "@/routes/api/campaigns";
+import { TableColumnHeader } from "../table/TableColumnHeader";
 
 export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   {
@@ -43,17 +39,19 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   },
   {
     accessorKey: "name",
-    header: ({ column }) => (
-      <TableColumnHeader column={column} title="Name" />
-    ),
+    header: ({ column }) => <TableColumnHeader column={column} title="Name" />,
   },
   {
     accessorKey: "adCount",
     header: ({ column }) => (
-      <TableColumnHeader column={column} title="Ad Count" className="justify-center"/>
+      <TableColumnHeader
+        column={column}
+        title="Ad Count"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => {
-      return <div className="text-center">{row.getValue('adCount')}</div>
+      return <div className="text-center">{row.getValue("adCount")}</div>;
     },
   },
   {
@@ -68,23 +66,32 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
       <TableColumnHeader column={column} title="Flight Date" />
     ),
     cell: ({ row }) => {
-      const [startDate, endDate] = row.getValue("flightDate") as [string, string]
+      const [startDate, endDate] = row.getValue("flightDate") as [
+        string,
+        string,
+      ];
 
-      return `${startDate} - ${endDate}`
+      return `${startDate} - ${endDate}`;
     },
   },
   {
     accessorKey: "impressions",
     header: ({ column }) => (
-      <TableColumnHeader column={column} title="Impressions" className="justify-center" />
+      <TableColumnHeader
+        column={column}
+        title="Impressions"
+        className="justify-center"
+      />
     ),
     cell: ({ row }) => {
-      return <div className="text-center">{row.getValue('adCount')}</div>
+      return <div className="text-center">{row.getValue("adCount")}</div>;
     },
   },
   {
     accessorKey: "status",
-    header: ({ column }) => <TableColumnHeader column={column} title="Status" />,
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Status" />
+    ),
   },
   {
     id: "actions",
@@ -94,7 +101,7 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
     cell: ({ row }) => {
       // You can access the row data using row.original in the cell function. Use this to
       // handle actions for your row eg. use the id to make a DELETE call to your API.
-      const campaign = row.original
+      const campaign = row.original;
 
       return (
         <DropdownMenu>
@@ -108,10 +115,10 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
             <DropdownMenuItem
               onClick={async () => {
                 try {
-                  await navigator.clipboard.writeText(campaign.id.toString())
-                  toast("ID has successfully been copied to your clipboard")
-                } catch(e) {
-                  toast("ID has failed to copy to your clipboard")
+                  await navigator.clipboard.writeText(campaign.id.toString());
+                  toast("ID has successfully been copied to your clipboard");
+                } catch (e) {
+                  toast("ID has failed to copy to your clipboard");
                 }
               }}
             >
@@ -122,7 +129,7 @@ export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
             <DropdownMenuItem>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
