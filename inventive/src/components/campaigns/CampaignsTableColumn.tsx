@@ -16,7 +16,7 @@ import {
 import { toast } from 'sonner'
 
 import { TableColumnHeader } from '../table/TableColumnHeader'
-import { Campaign } from '@/routes/api.campaigns'
+import type { Campaign } from '@/routes/api/campaigns'
 
 export const CampaignsTableColumns: ColumnDef<Campaign>[] = [
   {

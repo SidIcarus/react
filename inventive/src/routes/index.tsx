@@ -9,9 +9,9 @@ import { ExampleChart } from "@/components/exampleChart";
 import { Button } from "@/components/ui/button";
 // import { Spinner } from '@/components/ui/spinner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Campaign } from "./api.campaigns";
-import type { DashboardChartData } from "./api.dashboardCharts";
-import type { TeamMember } from "./api.teamMembers";
+import type { Campaign } from "./api/campaigns";
+import type { DashboardChartData } from "./api/dashboardCharts";
+import type { TeamMember } from "./api/teamMembers";
 
 // import { ExampleCard } from '@/components/exampleCard'
 

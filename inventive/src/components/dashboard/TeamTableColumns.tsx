@@ -4,7 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 
 import { Check } from 'lucide-react'
 import { TableColumnHeader } from '../table/TableColumnHeader'
-import type { TeamMember } from '@/routes/api.teamMembers'
+import type { TeamMember } from "@/routes/api/teamMembers";
 
 export const TeamTableColumns: ColumnDef<TeamMember>[] = [
   {

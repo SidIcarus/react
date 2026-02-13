@@ -39,7 +39,7 @@ import { TablePagination } from '../table/TablePagination' // for pagination
 import { TableViewOptions } from '../table/TableViewOptions' // for column visibility
 // import { TableViewOptionsSimple } from '../table/TableViewOptionsSimple'
 
-import type { Campaign } from '@/routes/api.campaigns'
+import type { Campaign } from '@/routes/api/campaigns'
 
 interface CampaignsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
