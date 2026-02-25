@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import LiveSearch from "./tasks/LiveSearch";
+import App from "./tasks/Themetoggle";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <LiveSearch />
+    <App />
   </StrictMode>,
 );
