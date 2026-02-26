@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./tasks/Themetoggle";
+import Stopwatch from "./tasks/Stopwatch";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <Stopwatch />
   </StrictMode>,
 );
