@@ -1,8 +1,10 @@
+// src/routes/_authenticated/projects/$projectId/index.tsx
+
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { KanbanBoard } from "@/components/KanbanBoard";
 import { Button } from "@/components/ui/button";
+import { KanbanBoard } from "@/components/KanbanBoard";
 import { useProjects } from "@/contexts/projects";
 import { useTasks } from "@/contexts/tasks";
 
@@ -13,7 +15,15 @@ export const Route = createFileRoute("/_authenticated/projects/$projectId/")({
 function ProjectDetailPage() {
   const { projectId } = Route.useParams();
   const { getProject, deleteProject } = useProjects();
-  const { getTasksByProject, createTask, updateTask, deleteTask } = useTasks();
+  const {
+    getTasksByProject,
+    createTask,
+    updateTask,
+    deleteTask,
+    activeTimer,
+    startTimer,
+    stopTimer,
+  } = useTasks();
   const navigate = useNavigate();
 
   const project = getProject(projectId);
@@ -25,13 +35,8 @@ function ProjectDetailPage() {
     return null;
   }
 
-  async function onClickDeleteProject() {
-    if (
-      !confirm(
-        "Are you sure you want to delete this project and all its tasks?",
-      )
-    )
-      return;
+  async function onDeleteProject() {
+    if (!confirm("Are you sure you want to delete this project and all its tasks?")) return;
 
     setIsDeleting(true);
     try {
@@ -41,11 +46,6 @@ function ProjectDetailPage() {
       console.error("Failed to delete project:", error);
       setIsDeleting(false);
     }
-  }
-
-  function onStartTimer(taskId: string) {
-    // We'll implement this in the timer section
-    console.log("Start timer for task:", taskId);
   }
 
   return (
@@ -78,7 +78,7 @@ function ProjectDetailPage() {
           </Button>
           <Button
             variant="destructive"
-            onClick={onClickDeleteProject}
+            onClick={onDeleteProject}
             disabled={isDeleting}
           >
             <Trash2 className="size-4 mr-2" />
@@ -94,10 +94,12 @@ function ProjectDetailPage() {
       <KanbanBoard
         projectId={projectId}
         tasks={tasks}
+        activeTimer={activeTimer}
         onCreateTask={createTask}
         onUpdateTask={updateTask}
         onDeleteTask={deleteTask}
-        onStartTimer={onStartTimer}
+        onStartTimer={startTimer}
+        onStopTimer={stopTimer}
       />
     </div>
   );

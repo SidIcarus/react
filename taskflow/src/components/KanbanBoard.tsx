@@ -1,7 +1,9 @@
+// src/components/KanbanBoard.tsx
+
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { TaskCard } from "@/components/task/TaskCard";
-import { TaskForm } from "@/components/task/TaskForm";
+import { TaskCard } from "@/components/TaskCard";
+import { TaskForm } from "@/components/TaskForm";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import type { TimerState } from "@/contexts/tasks/types";
 import type {
   CreateTaskInput,
   Task,
@@ -25,35 +28,39 @@ const COLUMNS: { status: TaskStatus; label: string }[] = [
 interface KanbanBoardProps {
   projectId: string;
   tasks: Task[];
+  activeTimer: TimerState | null;
   onCreateTask: (input: CreateTaskInput) => Promise<Task>;
   onUpdateTask: (id: string, input: UpdateTaskInput) => Promise<Task>;
   onDeleteTask: (id: string) => Promise<void>;
   onStartTimer: (taskId: string) => void;
+  onStopTimer: () => Promise<void>;
 }
 
 export function KanbanBoard({
   projectId,
   tasks,
+  activeTimer,
   onCreateTask,
   onUpdateTask,
   onDeleteTask,
   onStartTimer,
+  onStopTimer,
 }: KanbanBoardProps) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [createForStatus, setCreateForStatus] = useState<TaskStatus>("todo");
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-  function onClickOpenCreateDialog(status: TaskStatus) {
+  function onOpenCreateDialog(status: TaskStatus) {
     setCreateForStatus(status);
     setIsCreateOpen(true);
   }
 
-  async function onSubmitTaskFormCreateTask(input: CreateTaskInput) {
+  async function onCreate(input: CreateTaskInput) {
     await onCreateTask(input);
     setIsCreateOpen(false);
   }
 
-  async function onSubmitTaskFormUpdate(input: CreateTaskInput) {
+  async function onUpdate(input: CreateTaskInput) {
     if (!editingTask) return;
     await onUpdateTask(editingTask.id, input);
     setEditingTask(null);
@@ -79,7 +86,7 @@ export function KanbanBoard({
                 variant="ghost"
                 size="icon"
                 className="size-6"
-                onClick={() => onClickOpenCreateDialog(column.status)}
+                onClick={() => onOpenCreateDialog(column.status)}
               >
                 <Plus className="size-4" />
                 <span className="sr-only">Add task to {column.label}</span>
@@ -91,9 +98,12 @@ export function KanbanBoard({
                 <TaskCard
                   key={task.id}
                   task={task}
+                  isTimerActive={activeTimer?.taskId === task.id}
+                  timerStartedAt={activeTimer?.startedAt ?? null}
                   onEdit={setEditingTask}
                   onDelete={onDeleteTask}
                   onStartTimer={onStartTimer}
+                  onStopTimer={onStopTimer}
                 />
               ))}
 
@@ -107,7 +117,6 @@ export function KanbanBoard({
         ))}
       </div>
 
-      {/* Create Task Dialog */}
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
         <DialogContent>
           <DialogHeader>
@@ -115,14 +124,13 @@ export function KanbanBoard({
           </DialogHeader>
           <TaskForm
             projectId={projectId}
-            onSubmit={onSubmitTaskFormCreateTask}
+            onSubmit={onCreate}
             onCancel={() => setIsCreateOpen(false)}
             task={{ status: createForStatus } as Task}
           />
         </DialogContent>
       </Dialog>
 
-      {/* Edit Task Dialog */}
       <Dialog open={!!editingTask} onOpenChange={() => setEditingTask(null)}>
         <DialogContent>
           <DialogHeader>
@@ -132,7 +140,7 @@ export function KanbanBoard({
             <TaskForm
               projectId={projectId}
               task={editingTask}
-              onSubmit={onSubmitTaskFormUpdate}
+              onSubmit={onUpdate}
               onCancel={() => setEditingTask(null)}
               submitLabel="Save Changes"
               submittingLabel="Saving..."

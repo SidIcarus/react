@@ -1,4 +1,6 @@
-import { Clock, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+// src/components/TaskCard.tsx
+
+import { MoreHorizontal, Pencil, Trash2, Clock, Square } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,26 +10,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useTimerDisplay } from "@/hooks/useTimerDisplay";
 import type { Task } from "@/types/task";
 
 const PRIORITY_COLORS = {
-  low: "bg-slate-100 text-slate-700",
-  medium: "bg-yellow-100 text-yellow-700",
-  high: "bg-red-100 text-red-700",
+  low: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+  medium: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
+  high: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
 };
 
 function formatTime(ms: number): string {
-  const seconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
   if (hours > 0) {
-    return `${hours}h ${minutes % 60}m`;
+    return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  }
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function formatTimeShort(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m`;
   }
   if (minutes > 0) {
     return `${minutes}m`;
   }
-  return `${seconds}s`;
+  return "<1m";
 }
 
 function formatDueDate(timestamp: number): string {
@@ -51,22 +66,29 @@ function isOverdue(timestamp: number): boolean {
 
 interface TaskCardProps {
   task: Task;
+  isTimerActive: boolean;
+  timerStartedAt: number | null;
   onEdit: (task: Task) => void;
   onDelete: (taskId: string) => void;
   onStartTimer: (taskId: string) => void;
+  onStopTimer: () => void;
   isDragging?: boolean;
 }
 
 export function TaskCard({
   task,
+  isTimerActive,
+  timerStartedAt,
   onEdit,
   onDelete,
   onStartTimer,
+  onStopTimer,
   isDragging = false,
 }: TaskCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const activeElapsed = useTimerDisplay(isTimerActive ? timerStartedAt : null);
 
-  async function handleDelete() {
+  async function onDeleteClick() {
     if (!confirm("Are you sure you want to delete this task?")) return;
 
     setIsDeleting(true);
@@ -78,19 +100,22 @@ export function TaskCard({
     }
   }
 
+  const totalTime = task.timeSpent + (isTimerActive ? activeElapsed : 0);
+
   return (
     <div
       className={cn(
         "bg-card border rounded-lg p-3 shadow-sm",
         isDragging && "opacity-50 rotate-2 shadow-lg",
         task.status === "done" && "opacity-60",
+        isTimerActive && "ring-2 ring-primary"
       )}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
         <h4
           className={cn(
             "font-medium text-sm",
-            task.status === "done" && "line-through",
+            task.status === "done" && "line-through"
           )}
         >
           {task.title}
@@ -107,12 +132,19 @@ export function TaskCard({
               <Pencil className="size-4 mr-2" />
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onStartTimer(task.id)}>
-              <Clock className="size-4 mr-2" />
-              Start Timer
-            </DropdownMenuItem>
+            {isTimerActive ? (
+              <DropdownMenuItem onClick={onStopTimer}>
+                <Square className="size-4 mr-2" />
+                Stop Timer
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem onClick={() => onStartTimer(task.id)}>
+                <Clock className="size-4 mr-2" />
+                Start Timer
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
-              onClick={handleDelete}
+              onClick={onDeleteClick}
               disabled={isDeleting}
               className="text-destructive focus:text-destructive"
             >
@@ -133,7 +165,7 @@ export function TaskCard({
         <span
           className={cn(
             "text-xs px-2 py-0.5 rounded-full",
-            PRIORITY_COLORS[task.priority],
+            PRIORITY_COLORS[task.priority]
           )}
         >
           {task.priority}
@@ -145,17 +177,22 @@ export function TaskCard({
               "text-xs",
               isOverdue(task.dueDate) && task.status !== "done"
                 ? "text-destructive"
-                : "text-muted-foreground",
+                : "text-muted-foreground"
             )}
           >
             {formatDueDate(task.dueDate)}
           </span>
         )}
 
-        {task.timeSpent > 0 && (
-          <span className="text-xs text-muted-foreground flex items-center gap-1">
+        {(totalTime > 0 || isTimerActive) && (
+          <span
+            className={cn(
+              "text-xs flex items-center gap-1",
+              isTimerActive ? "text-primary font-medium" : "text-muted-foreground"
+            )}
+          >
             <Clock className="size-3" />
-            {formatTime(task.timeSpent)}
+            {isTimerActive ? formatTime(activeElapsed) : formatTimeShort(totalTime)}
           </span>
         )}
       </div>
