@@ -1,6 +1,9 @@
-// src/contexts/tasks/types.ts
-
-import type { Task, CreateTaskInput, UpdateTaskInput, TaskStatus } from "@/types/task";
+import type {
+  CreateTaskInput,
+  Task,
+  TaskStatus,
+  UpdateTaskInput,
+} from "@/types/task";
 
 export interface TimerState {
   taskId: string;
@@ -16,7 +19,11 @@ export interface TasksContextType {
   createTask: (input: CreateTaskInput) => Promise<Task>;
   updateTask: (id: string, input: UpdateTaskInput) => Promise<Task>;
   deleteTask: (id: string) => Promise<void>;
-  reorderTasks: (projectId: string, status: TaskStatus, taskIds: string[]) => Promise<void>;
+  reorderTasks: (
+    projectId: string,
+    status: TaskStatus,
+    taskIds: string[],
+  ) => Promise<void>;
   addTimeToTask: (id: string, milliseconds: number) => Promise<Task>;
   startTimer: (taskId: string) => void;
   stopTimer: () => Promise<void>;

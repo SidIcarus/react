@@ -1,8 +1,6 @@
-// src/components/SortableTaskCard.tsx
-
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { TaskCard } from "@/components/TaskCard";
+import { TaskCard } from "@/components/task/TaskCard";
 import type { Task } from "@/types/task";
 
 interface SortableTaskCardProps {

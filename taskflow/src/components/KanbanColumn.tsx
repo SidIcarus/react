@@ -1,5 +1,3 @@
-// src/components/KanbanColumn.tsx
-
 import { useDroppable } from "@dnd-kit/core";
 import { Plus } from "lucide-react";
 import type { ReactNode } from "react";
@@ -28,7 +26,7 @@ export function KanbanColumn({
       ref={setNodeRef}
       className={cn(
         "bg-muted/50 rounded-lg p-4 transition-colors",
-        isOver && "bg-muted ring-2 ring-primary ring-inset"
+        isOver && "bg-muted ring-2 ring-primary ring-inset",
       )}
     >
       <div className="flex items-center justify-between mb-4">

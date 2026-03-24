@@ -1,6 +1,4 @@
-// src/components/TaskCard.tsx
-
-import { MoreHorizontal, Pencil, Trash2, Clock, Square } from "lucide-react";
+import { Clock, MoreHorizontal, Pencil, Square, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,13 +7,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 import { useTimerDisplay } from "@/hooks/useTimerDisplay";
+import { cn } from "@/lib/utils";
 import type { Task } from "@/types/task";
 
 const PRIORITY_COLORS = {
   low: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
-  medium: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
+  medium:
+    "bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300",
   high: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
 };
 
@@ -108,14 +107,14 @@ export function TaskCard({
         "bg-card border rounded-lg p-3 shadow-sm",
         isDragging && "opacity-50 rotate-2 shadow-lg",
         task.status === "done" && "opacity-60",
-        isTimerActive && "ring-2 ring-primary"
+        isTimerActive && "ring-2 ring-primary",
       )}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
         <h4
           className={cn(
             "font-medium text-sm",
-            task.status === "done" && "line-through"
+            task.status === "done" && "line-through",
           )}
         >
           {task.title}
@@ -165,7 +164,7 @@ export function TaskCard({
         <span
           className={cn(
             "text-xs px-2 py-0.5 rounded-full",
-            PRIORITY_COLORS[task.priority]
+            PRIORITY_COLORS[task.priority],
           )}
         >
           {task.priority}
@@ -177,7 +176,7 @@ export function TaskCard({
               "text-xs",
               isOverdue(task.dueDate) && task.status !== "done"
                 ? "text-destructive"
-                : "text-muted-foreground"
+                : "text-muted-foreground",
             )}
           >
             {formatDueDate(task.dueDate)}
@@ -188,11 +187,15 @@ export function TaskCard({
           <span
             className={cn(
               "text-xs flex items-center gap-1",
-              isTimerActive ? "text-primary font-medium" : "text-muted-foreground"
+              isTimerActive
+                ? "text-primary font-medium"
+                : "text-muted-foreground",
             )}
           >
             <Clock className="size-3" />
-            {isTimerActive ? formatTime(activeElapsed) : formatTimeShort(totalTime)}
+            {isTimerActive
+              ? formatTime(activeElapsed)
+              : formatTimeShort(totalTime)}
           </span>
         )}
       </div>

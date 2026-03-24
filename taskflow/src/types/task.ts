@@ -20,3 +20,19 @@ export type CreateTaskInput = Pick<
 >;
 
 export type UpdateTaskInput = Partial<Omit<CreateTaskInput, "projectId">>;
+
+export type TaskSortField = "createdAt" | "dueDate" | "priority" | "title";
+export type SortDirection = "asc" | "desc";
+
+export interface TaskFilters {
+  priority?: TaskPriority;
+  status?: TaskStatus;
+  dueDateFrom?: number;
+  dueDateTo?: number;
+  search?: string;
+}
+
+export interface TaskSort {
+  field: TaskSortField;
+  direction: SortDirection;
+}

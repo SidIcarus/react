@@ -1,10 +1,8 @@
-// src/hooks/useTimerDisplay.ts
-
 import { useEffect, useState } from "react";
 
 export function useTimerDisplay(startedAt: number | null): number {
   const [elapsed, setElapsed] = useState(() =>
-    startedAt ? Date.now() - startedAt : 0
+    startedAt ? Date.now() - startedAt : 0,
   );
 
   useEffect(() => {

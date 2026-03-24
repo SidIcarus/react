@@ -1,5 +1,3 @@
-// src/components/ActiveTimerIndicator.tsx
-
 import { Link } from "@tanstack/react-router";
 import { Clock, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";

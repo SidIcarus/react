@@ -1,20 +1,18 @@
-// src/contexts/tasks/TasksContext.tsx
-
 import {
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useState,
-  type ReactNode,
 } from "react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import type {
-  Task,
   CreateTaskInput,
-  UpdateTaskInput,
+  Task,
   TaskStatus,
+  UpdateTaskInput,
 } from "@/types/task";
 import type { TasksContextType, TimerState } from "./types";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const TasksContext = createContext<TasksContextType | null>(null);
 
@@ -37,7 +35,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
   const [tasks, setTasks] = useLocalStorage<Task[]>(TASKS_STORAGE_KEY, []);
   const [activeTimer, setActiveTimer] = useLocalStorage<TimerState | null>(
     TIMER_STORAGE_KEY,
-    null
+    null,
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,14 +43,14 @@ export function TasksProvider({ children }: TasksProviderProps) {
     (id: string) => {
       return tasks.find((task) => task.id === id);
     },
-    [tasks]
+    [tasks],
   );
 
   const getTasksByProject = useCallback(
     (projectId: string) => {
       return tasks.filter((task) => task.projectId === projectId);
     },
-    [tasks]
+    [tasks],
   );
 
   const addTimeToTask = useCallback(
@@ -79,7 +77,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
         setIsLoading(false);
       }
     },
-    [tasks, setTasks]
+    [tasks, setTasks],
   );
 
   const startTimer = useCallback(
@@ -96,7 +94,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
         startedAt: Date.now(),
       });
     },
-    [activeTimer, addTimeToTask, setActiveTimer]
+    [activeTimer, addTimeToTask, setActiveTimer],
   );
 
   const stopTimer = useCallback(async () => {
@@ -128,7 +126,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
         setIsLoading(false);
       }
     },
-    [setTasks]
+    [setTasks],
   );
 
   const updateTask = useCallback(
@@ -155,7 +153,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
         setIsLoading(false);
       }
     },
-    [tasks, setTasks]
+    [tasks, setTasks],
   );
 
   const deleteTask = useCallback(
@@ -179,18 +177,22 @@ export function TasksProvider({ children }: TasksProviderProps) {
         setIsLoading(false);
       }
     },
-    [tasks, setTasks, activeTimer, setActiveTimer]
+    [tasks, setTasks, activeTimer, setActiveTimer],
   );
 
   const reorderTasks = useCallback(
-    async (projectId: string, status: TaskStatus, taskIds: string[]): Promise<void> => {
+    async (
+      projectId: string,
+      status: TaskStatus,
+      taskIds: string[],
+    ): Promise<void> => {
       setIsLoading(true);
       try {
         await simulateNetwork(100);
 
         setTasks((prev) => {
           const otherTasks = prev.filter(
-            (t) => t.projectId !== projectId || t.status !== status
+            (t) => t.projectId !== projectId || t.status !== status,
           );
           const reorderedTasks = taskIds
             .map((id) => prev.find((t) => t.id === id))
@@ -202,7 +204,7 @@ export function TasksProvider({ children }: TasksProviderProps) {
         setIsLoading(false);
       }
     },
-    [setTasks]
+    [setTasks],
   );
 
   const value: TasksContextType = {

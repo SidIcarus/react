@@ -1,16 +1,14 @@
-// src/components/KanbanBoard.tsx
-
 import {
-  DndContext,
-  DragOverlay,
   closestCorners,
+  DndContext,
+  type DragEndEvent,
+  type DragOverEvent,
+  DragOverlay,
+  type DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  type DragStartEvent,
-  type DragEndEvent,
-  type DragOverEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -19,19 +17,24 @@ import {
 } from "@dnd-kit/sortable";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { TaskCard } from "@/components/TaskCard";
-import { SortableTaskCard } from "@/components/SortableTaskCard";
 import { KanbanColumn } from "@/components/KanbanColumn";
-import { TaskForm } from "@/components/TaskForm";
+import { SortableTaskCard } from "@/components/SortableTaskCard";
+import { TaskCard } from "@/components/task/TaskCard";
+import { TaskForm } from "@/components/task/TaskForm";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { Task, TaskStatus, CreateTaskInput, UpdateTaskInput } from "@/types/task";
 import type { TimerState } from "@/contexts/tasks/types";
+import type {
+  CreateTaskInput,
+  Task,
+  TaskStatus,
+  UpdateTaskInput,
+} from "@/types/task";
 
 const COLUMNS: { status: TaskStatus; label: string }[] = [
   { status: "todo", label: "To Do" },
@@ -76,7 +79,7 @@ export function KanbanBoard({
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function onOpenCreateDialog(status: TaskStatus) {
