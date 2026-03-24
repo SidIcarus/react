@@ -1,23 +1,37 @@
 // src/components/KanbanBoard.tsx
 
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragStartEvent,
+  type DragEndEvent,
+  type DragOverEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { TaskCard } from "@/components/TaskCard";
-import { TaskForm } from "@/components/TaskForm";
 import { Button } from "@/components/ui/button";
+import { TaskCard } from "@/components/TaskCard";
+import { SortableTaskCard } from "@/components/SortableTaskCard";
+import { KanbanColumn } from "@/components/KanbanColumn";
+import { TaskForm } from "@/components/TaskForm";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import type { Task, TaskStatus, CreateTaskInput, UpdateTaskInput } from "@/types/task";
 import type { TimerState } from "@/contexts/tasks/types";
-import type {
-  CreateTaskInput,
-  Task,
-  TaskStatus,
-  UpdateTaskInput,
-} from "@/types/task";
 
 const COLUMNS: { status: TaskStatus; label: string }[] = [
   { status: "todo", label: "To Do" },
@@ -49,6 +63,21 @@ export function KanbanBoard({
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [createForStatus, setCreateForStatus] = useState<TaskStatus>("todo");
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+  // Sensors determine how drag is initiated (pointer, keyboard)
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      // Require 8px movement before drag starts
+      // Prevents accidental drags when clicking
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   function onOpenCreateDialog(status: TaskStatus) {
     setCreateForStatus(status);
@@ -66,56 +95,116 @@ export function KanbanBoard({
     setEditingTask(null);
   }
 
-  function getTasksByStatus(status: TaskStatus) {
+  function getTasksByStatus(status: TaskStatus): Task[] {
     return tasks.filter((task) => task.status === status);
+  }
+
+  function onDragStart(event: DragStartEvent) {
+    const { active } = event;
+    const task = tasks.find((t) => t.id === active.id);
+    if (task) {
+      setActiveTask(task);
+    }
+  }
+
+  async function onDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    setActiveTask(null);
+
+    if (!over) return;
+
+    const activeTaskId = active.id as string;
+    const activeTaskData = tasks.find((t) => t.id === activeTaskId);
+
+    if (!activeTaskData) return;
+
+    // Determine the target status
+    // `over.id` could be a column ID (status) or another task ID
+    let targetStatus: TaskStatus;
+
+    if (COLUMNS.some((col) => col.status === over.id)) {
+      // Dropped on a column
+      targetStatus = over.id as TaskStatus;
+    } else {
+      // Dropped on another task — find that task's status
+      const overTask = tasks.find((t) => t.id === over.id);
+      if (!overTask) return;
+      targetStatus = overTask.status;
+    }
+
+    // Only update if status changed
+    if (activeTaskData.status !== targetStatus) {
+      await onUpdateTask(activeTaskId, { status: targetStatus });
+    }
   }
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {COLUMNS.map((column) => (
-          <div key={column.status} className="bg-muted/50 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-sm">
-                {column.label}
-                <span className="ml-2 text-muted-foreground">
-                  ({getTasksByStatus(column.status).length})
-                </span>
-              </h3>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-6"
-                onClick={() => onOpenCreateDialog(column.status)}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {COLUMNS.map((column) => {
+            const columnTasks = getTasksByStatus(column.status);
+
+            return (
+              <KanbanColumn
+                key={column.status}
+                id={column.status}
+                label={column.label}
+                taskCount={columnTasks.length}
+                onAddClick={() => onOpenCreateDialog(column.status)}
               >
-                <Plus className="size-4" />
-                <span className="sr-only">Add task to {column.label}</span>
-              </Button>
-            </div>
+                <SortableContext
+                  items={columnTasks.map((t) => t.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="flex flex-col gap-2">
+                    {columnTasks.map((task) => (
+                      <SortableTaskCard
+                        key={task.id}
+                        task={task}
+                        isTimerActive={activeTimer?.taskId === task.id}
+                        timerStartedAt={activeTimer?.startedAt ?? null}
+                        onEdit={setEditingTask}
+                        onDelete={onDeleteTask}
+                        onStartTimer={onStartTimer}
+                        onStopTimer={onStopTimer}
+                      />
+                    ))}
 
-            <div className="flex flex-col gap-2">
-              {getTasksByStatus(column.status).map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  isTimerActive={activeTimer?.taskId === task.id}
-                  timerStartedAt={activeTimer?.startedAt ?? null}
-                  onEdit={setEditingTask}
-                  onDelete={onDeleteTask}
-                  onStartTimer={onStartTimer}
-                  onStopTimer={onStopTimer}
-                />
-              ))}
+                    {columnTasks.length === 0 && (
+                      <p className="text-sm text-muted-foreground text-center py-4">
+                        No tasks
+                      </p>
+                    )}
+                  </div>
+                </SortableContext>
+              </KanbanColumn>
+            );
+          })}
+        </div>
 
-              {getTasksByStatus(column.status).length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-4">
-                  No tasks
-                </p>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+        {/* DragOverlay renders the dragged item outside the normal flow */}
+        <DragOverlay>
+          {activeTask && (
+            <TaskCard
+              task={activeTask}
+              isTimerActive={activeTimer?.taskId === activeTask.id}
+              timerStartedAt={activeTimer?.startedAt ?? null}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              onStartTimer={() => {}}
+              onStopTimer={() => {}}
+              isDragging
+            />
+          )}
+        </DragOverlay>
+      </DndContext>
 
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
         <DialogContent>
