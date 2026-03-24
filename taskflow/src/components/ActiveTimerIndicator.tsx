@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Clock, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTimerDisplay } from "@/hooks/useTimerDisplay";
-import { useTasks } from "@/contexts/tasks";
 import { useProjects } from "@/contexts/projects";
+import { useTasks } from "@/contexts/tasks";
+import { useTimerDisplay } from "@/hooks/useTimerDisplay";
 
 function formatTime(ms: number): string {
   const totalSeconds = Math.floor(ms / 1000);

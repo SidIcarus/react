@@ -1,5 +1,3 @@
-// src/routes/_authenticated/index.tsx
-
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   AlertTriangle,

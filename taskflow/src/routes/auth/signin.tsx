@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AuthTemplate } from "@/components/auth/AuthTemplate";
 import { SigninForm } from "@/components/auth/SigninForm";
+import { getInitialAuthState } from "@/contexts/auth/getInitialAuthState";
 
 type SigninSearch = {
   redirect?: string;
@@ -12,10 +13,17 @@ export const Route = createFileRoute("/auth/signin")({
     redirect: typeof search.redirect === "string" ? search.redirect : undefined,
     message: typeof search.message === "string" ? search.message : undefined,
   }),
-  component: Signin,
+  beforeLoad: () => {
+    if (typeof window === "undefined") return;
+    const { isAuthenticated } = getInitialAuthState();
+    if (isAuthenticated) {
+      throw redirect({ to: "/" });
+    }
+  },
+  component: SigninPage,
 });
 
-function Signin() {
+function SigninPage() {
   const { message } = Route.useSearch();
 
   return (

@@ -1,9 +1,9 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
 import { getInitialAuthState } from "@/contexts/auth/getInitialAuthState";
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: async ({ location }) => {
+  beforeLoad: () => {
     // Skip auth check on server — let client handle it
     if (typeof window === "undefined") return;
 
@@ -23,9 +23,11 @@ export const Route = createFileRoute("/_authenticated")({
 
 function AuthenticatedLayout() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <Outlet />
-    </>
+      <main className="flex-1">
+        <Outlet />
+      </main>
+    </div>
   );
 }

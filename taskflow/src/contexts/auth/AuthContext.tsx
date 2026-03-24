@@ -57,10 +57,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     [setUser],
   );
 
-  // Logout function
+  // Signout function
   const signout = useCallback(() => {
-    removeUser();
-  }, [removeUser]);
+    setUser(null);
+    removeUser(); // Clear from localStorage
+    // Navigation happens automatically because beforeLoad
+    // will redirect to signin on next route change
+  }, [setUser, removeUser]);
 
   const signup = useCallback(
     async (name: string, email: string, password: string) => {
